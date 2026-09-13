@@ -1,0 +1,329 @@
+/* ============================================================
+   PET MANAGEMENT SYSTEM — ANIMATED THEME
+   ============================================================ */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* ---------- ANIMATED BACKGROUND ---------- */
+body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: linear-gradient(-45deg, #e0f7fa, #f3e5f5, #e8f5e9, #fff8e1);
+    background-size: 400% 400%;
+    animation: gradientBG 15s ease infinite;
+    padding: 30px;
+    color: #333;
+    min-height: 100vh;
+}
+
+@keyframes gradientBG {
+    0%   { background-position: 0% 50%; }
+    50%  { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* ---------- MAIN CONTAINER ---------- */
+.container {
+    max-width: 850px;
+    margin: auto;
+    background-color: white;
+    padding: 30px;
+    border-radius: 16px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+    animation: fadeInUp 0.6s ease both;
+    position: relative;
+    z-index: 1;
+}
+
+/* ---------- LOGIN BOX ---------- */
+.login-box {
+    max-width: 450px;
+    margin: auto;
+    padding: 30px;
+    animation: popIn 0.7s cubic-bezier(0.68, -0.55, 0.27, 1.55) both;
+}
+
+@keyframes popIn {
+    0%   { opacity: 0; transform: scale(0.85); }
+    100% { opacity: 1; transform: scale(1); }
+}
+
+.welcome-text {
+    text-align: center;
+    color: #666;
+    margin-bottom: 20px;
+}
+
+/* ---------- FLOATING PAWS (login page only) ---------- */
+.paws {
+    position: fixed;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.paws span {
+    position: absolute;
+    bottom: -60px;
+    font-size: 30px;
+    opacity: 0;
+    animation: floatUp linear infinite;
+}
+
+.paws span:nth-child(1)  { left: 5%;   animation-duration: 13s; animation-delay: 0s;    font-size: 26px; }
+.paws span:nth-child(2)  { left: 15%;  animation-duration: 16s; animation-delay: 2s;    font-size: 34px; }
+.paws span:nth-child(3)  { left: 25%;  animation-duration: 11s; animation-delay: 5s;    font-size: 22px; }
+.paws span:nth-child(4)  { left: 35%;  animation-duration: 17s; animation-delay: 1s;    font-size: 30px; }
+.paws span:nth-child(5)  { left: 45%;  animation-duration: 14s; animation-delay: 7s;    font-size: 24px; }
+.paws span:nth-child(6)  { left: 55%;  animation-duration: 12s; animation-delay: 3s;    font-size: 32px; }
+.paws span:nth-child(7)  { left: 65%;  animation-duration: 18s; animation-delay: 6s;    font-size: 26px; }
+.paws span:nth-child(8)  { left: 75%;  animation-duration: 15s; animation-delay: 0.5s;  font-size: 30px; }
+.paws span:nth-child(9)  { left: 85%;  animation-duration: 12s; animation-delay: 4s;    font-size: 24px; }
+.paws span:nth-child(10) { left: 92%;  animation-duration: 16s; animation-delay: 8s;    font-size: 28px; }
+
+@keyframes floatUp {
+    0%   { transform: translateY(0) rotate(0deg) scale(0.8); opacity: 0; }
+    10%  { opacity: 0.45; }
+    85%  { opacity: 0.45; }
+    100% { transform: translateY(-110vh) rotate(340deg) scale(1.2); opacity: 0; }
+}
+
+/* ---------- HEADINGS ---------- */
+h1 {
+    text-align: center;
+    margin-bottom: 15px;
+    animation: fadeInDown 0.5s ease both;
+}
+
+h2 {
+    margin-top: 20px;
+    margin-bottom: 15px;
+}
+
+h3 {
+    margin: 10px 0;
+}
+
+p {
+    margin: 10px 0;
+    line-height: 1.6;
+}
+
+/* ---------- FORMS ---------- */
+form {
+    margin-top: 15px;
+}
+
+label {
+    font-weight: bold;
+    display: block;
+    margin-top: 15px;
+}
+
+input {
+    width: 100%;
+    padding: 12px;
+    margin-top: 6px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+input:focus {
+    outline: none;
+    border-color: #4CAF50;
+    box-shadow: 0 0 0 4px rgba(76, 175, 80, 0.15);
+}
+
+/* ---------- BUTTONS ---------- */
+button {
+    width: 100%;
+    background: linear-gradient(135deg, #4CAF50, #2E7D32);
+    color: white;
+    padding: 13px 18px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: 20px;
+    font-size: 16px;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(76, 175, 80, 0.4);
+}
+
+button:active {
+    transform: translateY(0) scale(0.98);
+}
+
+/* shine sweep effect on hover */
+button::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -75%;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(120deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.4) 50%, rgba(255,255,255,0) 100%);
+    transform: skewX(-20deg);
+}
+
+button:hover::after {
+    animation: shine 0.8s ease;
+}
+
+@keyframes shine {
+    100% { left: 125%; }
+}
+
+/* ---------- LINKS ---------- */
+a {
+    text-decoration: none;
+    color: white;
+    background-color: #2196F3;
+    padding: 10px 16px;
+    border-radius: 8px;
+    display: inline-block;
+    margin: 5px 5px 5px 0;
+    font-weight: bold;
+    transition: transform 0.25s ease, box-shadow 0.25s ease, background-color 0.25s ease;
+}
+
+a:hover {
+    background-color: #1976D2;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(33, 150, 243, 0.35);
+}
+
+a:active {
+    transform: translateY(0) scale(0.97);
+}
+
+/* ---------- LOGIN ACCOUNT INFO ---------- */
+.login-info {
+    margin-top: 25px;
+    padding: 15px;
+    background-color: #f1f8f4;
+    border-radius: 10px;
+    border-left: 5px solid #4CAF50;
+    animation: fadeInUp 0.6s ease 0.3s both;
+}
+
+.login-info p {
+    margin: 5px 0;
+}
+
+/* ---------- PET CARD ---------- */
+.pet-card {
+    background-color: #f9f9f9;
+    padding: 20px;
+    margin-top: 15px;
+    border-radius: 12px;
+    border: 1px solid #ddd;
+    border-left: 5px solid #4CAF50;
+    animation: fadeInUp 0.5s ease both;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.pet-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+}
+
+/* ---------- ROLE INFORMATION ---------- */
+.role-info {
+    background: linear-gradient(135deg, #f1f8f4, #e3f2fd);
+    padding: 15px;
+    border-radius: 10px;
+    margin-top: 15px;
+    border-left: 5px solid #2196F3;
+    animation: fadeInUp 0.5s ease both;
+}
+
+/* ---------- ERROR MESSAGE ---------- */
+.error-message {
+    padding: 12px;
+    margin: 10px 0;
+    border-radius: 6px;
+    font-weight: bold;
+}
+
+/* ---------- FLASH MESSAGES ---------- */
+.flash-message {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+    padding: 12px 15px;
+    margin: 15px 0;
+    border-radius: 8px;
+    border-left: 5px solid #4CAF50;
+    font-weight: bold;
+    animation: slideDown 0.5s ease both;
+    transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+@keyframes slideDown {
+    0%   { opacity: 0; transform: translateY(-15px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+
+/* ---------- HR DIVIDER ---------- */
+hr {
+    border: none;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #4CAF50, transparent);
+    margin: 25px 0;
+}
+
+/* ---------- KEYFRAME LIBRARY ---------- */
+@keyframes fadeInUp {
+    0%   { opacity: 0; transform: translateY(25px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeInDown {
+    0%   { opacity: 0; transform: translateY(-20px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+
+/* ---------- MOBILE DESIGN ---------- */
+@media (max-width: 600px) {
+
+    body {
+        padding: 15px;
+    }
+
+    .container {
+        padding: 20px;
+    }
+
+    .login-box {
+        padding: 10px;
+    }
+
+    a {
+        width: 100%;
+        text-align: center;
+    }
+
+    .paws span {
+        font-size: 20px;
+    }
+}
+
+/* ---------- ACCESSIBILITY: respect reduced motion ---------- */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation: none !important;
+        transition: none !important;
+    }
+}

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Pet Management System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+<!-- FLOATING PAW PRINTS BACKGROUND -->
+<div class="paws" aria-hidden="true">
+    <span>🐾</span>
+    <span>🐾</span>
+    <span>🐾</span>
+    <span>🐾</span>
+    <span>🐾</span>
+    <span>🐾</span>
+    <span>🐾</span>
+    <span>🐾</span>
+    <span>🐾</span>
+    <span>🐾</span>
+</div>
+
+<div class="container">
+
+    <div class="login-box">
+
+        <h1>🐾 Pet Management System</h1>
+
+        <p class="welcome-text">Welcome! Please login to continue.</p>
+
+        <!-- FLASH MESSAGES (e.g. wrong password, logged out) -->
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                    <p class="flash-message">{{ message }}</p>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <h2>Login</h2>
+
+        <form method="POST">
+
+            <label>Username</label>
+            <input type="text" name="username" placeholder="Enter your username" required>
+
+            <label>Password</label>
+            <input type="password" name="password" placeholder="Enter your password" required>
+
+            <button type="submit">Login</button>
+
+        </form>
+
+        <div class="login-info">
+            <p><strong>Available Accounts:</strong></p>
+            <p>👑 Admin: admin / 1234</p>
+            <p>🩺 Veterinarian: vet / 1234</p>
+            <p>📝 Receptionist: reception / 1234</p>
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+    // Auto-hide ang flash messages after 3.5 seconds
+    document.querySelectorAll('.flash-message').forEach(function(el) {
+        setTimeout(function() {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(-10px)';
+            setTimeout(function() { el.remove(); }, 500);
+        }, 3500);
+    });
+</script>
+
+</body>
+</html>

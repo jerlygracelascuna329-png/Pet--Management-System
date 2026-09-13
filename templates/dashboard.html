@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard - Pet Management System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>🐾 Pet Management System</h1>
+
+    <h2>Welcome, {{ username }}! 👋</h2>
+
+
+    <!-- ROLE INFORMATION -->
+
+    <div class="role-info">
+
+        <h3>{{ dashboard_message }}</h3>
+
+        <p>
+            <strong>Your Role:</strong> {{ role }}
+        </p>
+
+    </div>
+
+
+    <hr>
+
+
+    <!-- ADMIN DASHBOARD -->
+
+    {% if role == "Admin" %}
+
+        <div class="pet-card">
+
+            <h2>👑 Admin Dashboard</h2>
+
+            <p>
+                Welcome Admin! You have full access to the Pet Management System.
+            </p>
+
+            <p><strong>You can:</strong></p>
+
+            <ul>
+                <li>Add Pet</li>
+                <li>View Pet Records</li>
+                <li>Update Pet Information</li>
+                <li>Delete Pet</li>
+            </ul>
+
+        </div>
+
+
+    <!-- VETERINARIAN DASHBOARD -->
+
+    {% elif role == "Veterinarian" %}
+
+        <div class="pet-card">
+
+            <h2>🩺 Veterinarian Dashboard</h2>
+
+            <p>
+                Welcome Veterinarian! You can view and update pet records.
+            </p>
+
+            <p><strong>You can:</strong></p>
+
+            <ul>
+                <li>View Pet Records</li>
+                <li>Update Pet Information</li>
+            </ul>
+
+        </div>
+
+
+    <!-- RECEPTIONIST DASHBOARD -->
+
+    {% elif role == "Receptionist" %}
+
+        <div class="pet-card">
+
+            <h2>📝 Receptionist Dashboard</h2>
+
+            <p>
+                Welcome Receptionist! You can add, view, and update pet records.
+            </p>
+
+            <p><strong>You can:</strong></p>
+
+            <ul>
+                <li>Add Pet</li>
+                <li>View Pet Records</li>
+                <li>Update Pet Information</li>
+            </ul>
+
+        </div>
+
+    {% endif %}
+
+
+    <hr>
+
+
+    <!-- NAVIGATION -->
+
+    <h2>Menu</h2>
+
+    <a href="/pets">🐾 Manage Pets</a>
+
+    <a href="/search">🔍 Search Pet</a>
+
+    <a href="/logout">🚪 Logout</a>
+
+
+</div>
+
+<script>
+    // Staggered entrance animation para sa pet cards
+    document.querySelectorAll('.pet-card').forEach(function(card, i) {
+        card.style.animationDelay = (i * 0.08) + 's';
+    });
+
+    // Auto-hide ang flash messages after 3.5 seconds
+    document.querySelectorAll('.flash-message').forEach(function(el) {
+        setTimeout(function() {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(-10px)';
+            setTimeout(function() { el.remove(); }, 500);
+        }, 3500);
+    });
+</script>
+
+</body>
+</html>

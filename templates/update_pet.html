@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Update Pet - Pet Management System</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>🐾 Update Pet</h1>
+
+
+    <div class="pet-card">
+
+        <h2>✏️ Edit Pet Information</h2>
+
+
+        <!-- FLASH MESSAGES -->
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                    <p class="flash-message">{{ message }}</p>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+
+        <form method="POST">
+
+            <label>🐶 Pet Name:</label>
+
+            <input
+                type="text"
+                name="name"
+                value="{{ pet.get_name() }}"
+                required
+            >
+
+
+            <label>🐾 Species:</label>
+
+            <input
+                type="text"
+                name="species"
+                value="{{ pet.get_species() }}"
+                required
+            >
+
+
+            <label>🎂 Age:</label>
+
+            <input
+                type="number"
+                name="age"
+                value="{{ pet.get_age() }}"
+                min="1"
+                required
+            >
+
+
+            <label>👤 Owner:</label>
+
+            <input
+                type="text"
+                name="owner"
+                value="{{ pet.get_owner() }}"
+                required
+            >
+
+
+            <button type="submit">
+                💾 Update Pet
+            </button>
+
+        </form>
+
+    </div>
+
+
+    <hr>
+
+
+    <a href="/pets">
+        🐾 Back to Pet Records
+    </a>
+
+    <a href="/dashboard">
+        🏠 Dashboard
+    </a>
+
+
+</div>
+
+<script>
+    // Staggered entrance animation para sa pet cards
+    document.querySelectorAll('.pet-card').forEach(function(card, i) {
+        card.style.animationDelay = (i * 0.08) + 's';
+    });
+
+    // Auto-hide ang flash messages after 3.5 seconds
+    document.querySelectorAll('.flash-message').forEach(function(el) {
+        setTimeout(function() {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(-10px)';
+            setTimeout(function() { el.remove(); }, 500);
+        }, 3500);
+    });
+</script>
+
+</body>
+</html>

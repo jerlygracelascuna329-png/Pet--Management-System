@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Pet Records - Pet Management System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>🐾 Pet Management System</h1>
+
+
+    <!-- ADD PET -->
+    {% if role == "Admin" or role == "Receptionist" %}
+
+    <div class="pet-card">
+
+        <h2>➕ Add Pet</h2>
+
+
+        <!-- FLASH MESSAGES -->
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                    <p class="flash-message">{{ message }}</p>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+
+        <form method="POST">
+
+            <label>🐶 Pet Name:</label>
+            <input type="text" name="name" required>
+
+
+            <label>🐾 Species:</label>
+            <input type="text" name="species" required>
+
+
+            <label>🎂 Age:</label>
+            <input type="number" name="age" min="1" required>
+
+
+            <label>👤 Owner:</label>
+            <input type="text" name="owner" required>
+
+
+            <button type="submit">➕ Add Pet</button>
+
+        </form>
+
+    </div>
+
+    {% endif %}
+
+
+    <hr>
+
+
+    <!-- PET RECORDS -->
+
+    <h2>📋 Pet Records</h2>
+
+
+    {% if pets %}
+
+        {% for pet in pets %}
+
+        <div class="pet-card">
+
+            <h3>🐾 {{ pet.get_name() }}</h3>
+
+            <p>
+                <strong>Species:</strong> {{ pet.get_species() }}<br>
+                <strong>Age:</strong> {{ pet.get_age() }}<br>
+                <strong>Owner:</strong> {{ pet.get_owner() }}
+            </p>
+
+
+            <!-- UPDATE BUTTON -->
+
+            <a href="/update/{{ loop.index0 }}">
+                ✏️ Update
+            </a>
+
+
+            <!-- DELETE BUTTON - ADMIN ONLY -->
+
+            {% if role == "Admin" %}
+
+                <a href="/delete/{{ loop.index0 }}">
+                    🗑️ Delete
+                </a>
+
+            {% endif %}
+
+        </div>
+
+        {% endfor %}
+
+
+    {% else %}
+
+        <div class="pet-card">
+            <p>🐾 No pet records yet.</p>
+        </div>
+
+    {% endif %}
+
+
+    <hr>
+
+
+    <!-- NAVIGATION -->
+
+    <a href="/search">
+        🔍 Search Pet
+    </a>
+
+    <a href="/dashboard">
+        🏠 Back to Dashboard
+    </a>
+
+
+</div>
+
+<script>
+    // Staggered entrance animation para sa pet cards
+    document.querySelectorAll('.pet-card').forEach(function(card, i) {
+        card.style.animationDelay = (i * 0.08) + 's';
+    });
+
+    // Auto-hide ang flash messages after 3.5 seconds
+    document.querySelectorAll('.flash-message').forEach(function(el) {
+        setTimeout(function() {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(-10px)';
+            setTimeout(function() { el.remove(); }, 500);
+        }, 3500);
+    });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Search Pet - Pet Management System</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>🔍 Search Pet</h1>
+
+    <div class="pet-card">
+
+        <h2>Find a Pet</h2>
+
+        <p>Enter the name of the pet you want to search.</p>
+
+        <form method="POST">
+
+            <label>🐾 Pet Name:</label>
+
+            <input
+                type="text"
+                name="search_name"
+                placeholder="Enter pet name..."
+                required
+            >
+
+            <button type="submit">
+                🔍 Search Pet
+            </button>
+
+        </form>
+
+    </div>
+
+
+    <hr>
+
+
+    <h2>📋 Search Results</h2>
+
+
+    {% if pets %}
+
+        {% for pet in pets %}
+
+        <div class="pet-card">
+
+            <h3>🐶 {{ pet.get_name() }}</h3>
+
+            <p>
+                <strong>Species:</strong> {{ pet.get_species() }}<br>
+                <strong>Age:</strong> {{ pet.get_age() }}<br>
+                <strong>Owner:</strong> {{ pet.get_owner() }}
+            </p>
+
+        </div>
+
+        {% endfor %}
+
+
+    {% else %}
+
+        <div class="pet-card">
+
+            <p>🐾 No pet found.</p>
+
+        </div>
+
+    {% endif %}
+
+
+    <hr>
+
+
+    <a href="/pets">
+        🐾 Manage Pets
+    </a>
+
+    <a href="/dashboard">
+        🏠 Dashboard
+    </a>
+
+
+</div>
+
+<script>
+    // Staggered entrance animation para sa pet cards
+    document.querySelectorAll('.pet-card').forEach(function(card, i) {
+        card.style.animationDelay = (i * 0.08) + 's';
+    });
+
+    // Auto-hide ang flash messages after 3.5 seconds
+    document.querySelectorAll('.flash-message').forEach(function(el) {
+        setTimeout(function() {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(-10px)';
+            setTimeout(function() { el.remove(); }, 500);
+        }, 3500);
+    });
+</script>
+
+</body>
+</html>
