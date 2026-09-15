@@ -1,0 +1,707 @@
+/* =========================================================
+   PETCARE - SIGN UP PAGE
+   Same style as Login Page
+   ========================================================= */
+
+/* =========================
+   RESET
+   ========================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+/* =========================
+   BODY
+   ========================= */
+
+body {
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+
+    color: #333;
+
+    background:
+        linear-gradient(
+            rgba(78, 52, 46, 0.25),
+            rgba(78, 52, 46, 0.25)
+        ),
+        url("/static/image.png");
+
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+
+/* =========================
+   BACKGROUND SHAPES
+   ========================= */
+
+.background-shapes {
+    position: fixed;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.background-shapes span {
+    position: absolute;
+    display: block;
+
+    border-radius: 50%;
+
+    background: rgba(255, 248, 240, 0.12);
+
+    animation: moveShapes 18s infinite ease-in-out;
+}
+
+.background-shapes span:nth-child(1) {
+    width: 180px;
+    height: 180px;
+    top: 5%;
+    left: 5%;
+    animation-delay: 0s;
+}
+
+.background-shapes span:nth-child(2) {
+    width: 120px;
+    height: 120px;
+    top: 20%;
+    right: 8%;
+    animation-delay: 2s;
+}
+
+.background-shapes span:nth-child(3) {
+    width: 220px;
+    height: 220px;
+    bottom: 5%;
+    left: 12%;
+    animation-delay: 4s;
+}
+
+.background-shapes span:nth-child(4) {
+    width: 150px;
+    height: 150px;
+    bottom: 15%;
+    right: 5%;
+    animation-delay: 6s;
+}
+
+.background-shapes span:nth-child(5) {
+    width: 90px;
+    height: 90px;
+    top: 45%;
+    left: 45%;
+    animation-delay: 8s;
+}
+
+
+/* =========================
+   FLOATING PET ICONS
+   ========================= */
+
+.pet-icons {
+    position: fixed;
+    inset: 0;
+
+    pointer-events: none;
+
+    overflow: hidden;
+
+    z-index: 1;
+}
+
+.pet-icons span {
+    position: absolute;
+
+    font-size: 28px;
+
+    opacity: 0.35;
+
+    animation: floatPet 10s infinite ease-in-out;
+}
+
+.pet-icons span:nth-child(1) {
+    top: 10%;
+    left: 10%;
+    animation-delay: 0s;
+}
+
+.pet-icons span:nth-child(2) {
+    top: 25%;
+    right: 12%;
+    animation-delay: 2s;
+}
+
+.pet-icons span:nth-child(3) {
+    top: 65%;
+    left: 8%;
+    animation-delay: 4s;
+}
+
+.pet-icons span:nth-child(4) {
+    bottom: 12%;
+    right: 15%;
+    animation-delay: 1s;
+}
+
+.pet-icons span:nth-child(5) {
+    top: 45%;
+    right: 5%;
+    animation-delay: 3s;
+}
+
+.pet-icons span:nth-child(6) {
+    bottom: 25%;
+    left: 18%;
+    animation-delay: 5s;
+}
+
+
+/* =========================
+   SIGN UP PAGE
+   ========================= */
+
+.login-page {
+    min-height: 100vh;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 30px;
+
+    position: relative;
+
+    z-index: 2;
+}
+
+
+/* =========================
+   SIGN UP CARD
+   ========================= */
+
+.login-card {
+    width: 100%;
+    max-width: 440px;
+
+    padding: 38px 40px;
+
+    background: rgba(255, 248, 240, 0.96);
+
+    border-radius: 22px;
+
+    box-shadow:
+        0 15px 50px rgba(78, 52, 46, 0.35);
+
+    text-align: center;
+
+    animation: fadeInUp 0.8s ease;
+}
+
+
+/* =========================
+   LOGO
+   ========================= */
+
+.pet-logo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    margin-bottom: 15px;
+}
+
+.logo-circle {
+    width: 75px;
+    height: 75px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background: linear-gradient(
+        135deg,
+        #8d6e63,
+        #5d4037
+    );
+
+    color: white;
+
+    font-size: 38px;
+
+    box-shadow:
+        0 8px 20px rgba(93, 64, 55, 0.35);
+
+    animation: floatIcon 3s infinite ease-in-out;
+}
+
+
+/* =========================
+   SYSTEM TITLE
+   ========================= */
+
+.login-card h1 {
+    font-size: 36px;
+
+    color: #5d4037;
+
+    margin-bottom: 5px;
+
+    letter-spacing: 1px;
+}
+
+.system-name {
+    color: #777;
+
+    font-size: 15px;
+
+    margin-bottom: 18px;
+}
+
+
+/* =========================
+   DIVIDER
+   ========================= */
+
+.welcome-divider {
+    width: 60px;
+    height: 3px;
+
+    margin: 0 auto 20px;
+
+    background: #8d6e63;
+
+    border-radius: 10px;
+}
+
+
+/* =========================
+   SIGN UP TITLE
+   ========================= */
+
+.login-card h2 {
+    font-size: 25px;
+
+    color: #333;
+
+    margin-bottom: 8px;
+}
+
+.welcome-text {
+    color: #666;
+
+    font-size: 14px;
+
+    margin-bottom: 25px;
+}
+
+
+/* =========================
+   FLASH MESSAGE
+   ========================= */
+
+.flash-message {
+    background: #f3e5d8;
+
+    color: #5d4037;
+
+    border-left: 4px solid #8d6e63;
+
+    padding: 10px 12px;
+
+    border-radius: 7px;
+
+    font-size: 14px;
+
+    margin-bottom: 18px;
+
+    transition: all 0.5s ease;
+}
+
+
+/* =========================
+   INPUT GROUP
+   ========================= */
+
+.input-group {
+    text-align: left;
+
+    margin-bottom: 20px;
+}
+
+.input-group label {
+    display: block;
+
+    color: #555;
+
+    font-size: 14px;
+
+    font-weight: 600;
+
+    margin-bottom: 7px;
+}
+
+
+/* =========================
+   INPUT WRAPPER
+   ========================= */
+
+.input-wrapper {
+    position: relative;
+
+    width: 100%;
+}
+
+
+/* =========================
+   INPUT ICON
+   ========================= */
+
+.input-icon {
+    position: absolute;
+
+    left: 14px;
+    top: 50%;
+
+    transform: translateY(-50%);
+
+    font-size: 18px;
+
+    z-index: 2;
+
+    pointer-events: none;
+}
+
+
+/* =========================
+   INPUT
+   ========================= */
+
+.input-wrapper input {
+    width: 100%;
+
+    height: 50px;
+
+    padding: 0 45px;
+
+    border: 1px solid #d7c2b2;
+
+    border-radius: 10px;
+
+    background: #fffdf9;
+
+    color: #333;
+
+    font-size: 14px;
+
+    outline: none;
+
+    transition: all 0.3s ease;
+}
+
+.input-wrapper input:focus {
+    border-color: #8d6e63;
+
+    box-shadow:
+        0 0 0 3px rgba(141, 110, 99, 0.15);
+
+    background: white;
+}
+
+
+/* =========================
+   READONLY ROLE INPUT
+   ========================= */
+
+.input-wrapper input[readonly] {
+    background: #f3e5d8;
+
+    color: #5d4037;
+
+    font-weight: 600;
+
+    cursor: default;
+}
+
+.input-wrapper input[readonly]:focus {
+    border-color: #d7c2b2;
+
+    box-shadow: none;
+
+    background: #f3e5d8;
+}
+
+
+/* =========================
+   CREATE ACCOUNT BUTTON
+   ========================= */
+
+.login-btn {
+    width: 100%;
+
+    height: 50px;
+
+    margin-top: 5px;
+
+    padding: 0 20px;
+
+    border: none;
+
+    border-radius: 10px;
+
+    background: linear-gradient(
+        135deg,
+        #8d6e63,
+        #5d4037
+    );
+
+    color: white;
+
+    font-size: 15px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 12px;
+
+    box-shadow:
+        0 7px 18px rgba(93, 64, 55, 0.3);
+
+    transition: all 0.3s ease;
+}
+
+.login-btn:hover {
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 10px 25px rgba(93, 64, 55, 0.4);
+}
+
+.login-btn:active {
+    transform: translateY(0);
+}
+
+
+/* =========================
+   BUTTON ICON
+   ========================= */
+
+.button-icon {
+    font-size: 20px;
+
+    transition: transform 0.3s ease;
+}
+
+.login-btn:hover .button-icon {
+    transform: translateX(5px);
+}
+
+
+/* =========================
+   BACK TO LOGIN SECTION
+   ========================= */
+
+.signup-section {
+    margin-top: 22px;
+
+    text-align: center;
+}
+
+.signup-section p {
+    color: #777;
+
+    font-size: 14px;
+
+    margin-bottom: 10px;
+}
+
+
+/* =========================
+   BACK TO LOGIN BUTTON
+   ========================= */
+
+.signup-btn {
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    min-width: 120px;
+
+    height: 42px;
+
+    padding: 0 25px;
+
+    background: #fff8f0;
+
+    color: #6f4e37;
+
+    border: 2px solid #8d6e63;
+
+    border-radius: 10px;
+
+    font-size: 14px;
+
+    font-weight: bold;
+
+    text-decoration: none;
+
+    transition: all 0.3s ease;
+}
+
+.signup-btn:hover {
+    background: linear-gradient(
+        135deg,
+        #8d6e63,
+        #5d4037
+    );
+
+    color: white;
+
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 8px 18px rgba(93, 64, 55, 0.3);
+}
+
+
+/* =========================
+   FOOTER
+   ========================= */
+
+.login-footer {
+    margin-top: 25px;
+
+    padding-top: 18px;
+
+    border-top: 1px solid #d7c2b2;
+}
+
+.login-footer p {
+    color: #777;
+
+    font-size: 12px;
+}
+
+
+/* =========================
+   ANIMATIONS
+   ========================= */
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+
+        transform: translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+
+        transform: translateY(0);
+    }
+}
+
+
+@keyframes floatIcon {
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-8px);
+    }
+}
+
+
+@keyframes floatPet {
+    0%,
+    100% {
+        transform: translateY(0) rotate(0deg);
+    }
+
+    50% {
+        transform: translateY(-20px) rotate(8deg);
+    }
+}
+
+
+@keyframes moveShapes {
+    0%,
+    100% {
+        transform: translate(0, 0);
+    }
+
+    50% {
+        transform: translate(20px, -20px);
+    }
+}
+
+
+/* =========================
+   RESPONSIVE
+   ========================= */
+
+@media (max-width: 600px) {
+
+    .login-page {
+        padding: 20px;
+    }
+
+    .login-card {
+        padding: 30px 25px;
+    }
+
+    .login-card h1 {
+        font-size: 31px;
+    }
+
+    .login-card h2 {
+        font-size: 22px;
+    }
+
+    .logo-circle {
+        width: 65px;
+        height: 65px;
+
+        font-size: 32px;
+    }
+
+    .signup-btn {
+        width: 100%;
+    }
+}
+
+
+/* =========================
+   REDUCED MOTION
+   ========================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+
+        animation-iteration-count: 1 !important;
+
+        transition-duration: 0.01ms !important;
+    }
+}

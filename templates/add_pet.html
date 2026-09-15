@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <title>Add New Pet - Pet Management System</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='pets.css') }}">
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>🐾 Pet Management System</h1>
+
+
+    <div class="add-pet-card">
+
+        <div class="add-pet-header">
+
+            <h2>➕ Add New Pet</h2>
+
+            <p>
+                Enter the pet information to create a new record.
+            </p>
+
+        </div>
+
+
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+
+                {% for message in messages %}
+
+                    <p class="flash-message">
+                        {{ message }}
+                    </p>
+
+                {% endfor %}
+
+            {% endif %}
+        {% endwith %}
+
+
+        <form method="POST" class="add-pet-form">
+
+
+            <div class="form-group">
+
+                <label for="name">
+                    Pet Name
+                </label>
+
+                <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    placeholder="Enter pet name"
+                    required
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="species">
+                    Species
+                </label>
+
+                <input
+                    type="text"
+                    id="species"
+                    name="species"
+                    placeholder="Example: Dog or Cat"
+                    required
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="age">
+                    Age
+                </label>
+
+                <input
+                    type="number"
+                    id="age"
+                    name="age"
+                    min="1"
+                    placeholder="Enter pet age"
+                    required
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="owner">
+                    Owner Name
+                </label>
+
+                <input
+                    type="text"
+                    id="owner"
+                    name="owner"
+                    placeholder="Enter owner's name"
+                    required
+                >
+
+            </div>
+
+
+            <div class="form-actions">
+
+                <button
+                    type="submit"
+                    class="add-pet-btn"
+                >
+                    Add Pet
+                </button>
+
+            </div>
+
+
+        </form>
+
+
+    </div>
+
+
+    <br>
+
+
+    <a href="/pets">
+        📋 View Pet Records
+    </a>
+
+
+    <a href="/dashboard">
+        🏠 Back to Dashboard
+    </a>
+
+
+</div>
+
+</body>
+</html>
+

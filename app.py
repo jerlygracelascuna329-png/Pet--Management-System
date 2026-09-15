@@ -1,14 +1,16 @@
 from flask import Flask, render_template, request, redirect, session, flash
 
 app = Flask(__name__)
+
 app.secret_key = "pet-secret-key"
 
 
 # =========================
-# USER CLASSES - POLYMORPHISM
+# USER CLASSES
 # =========================
 
 class User:
+
     def __init__(self, username, password, role):
         self.username = username
         self.password = password
@@ -19,32 +21,37 @@ class User:
 
 
 class Admin(User):
+
     def dashboard(self):
         return "Admin Dashboard"
 
 
 class Veterinarian(User):
+
     def dashboard(self):
         return "Veterinarian Dashboard"
 
 
 class Receptionist(User):
+
     def dashboard(self):
         return "Receptionist Dashboard"
 
 
 # =========================
-# PET CLASS - ENCAPSULATION
+# PET CLASS
 # =========================
 
 class Pet:
+
     def __init__(self, name, species, age, owner):
         self.__name = name
         self.__species = species
         self.__age = age
         self.__owner = owner
 
-    # GETTERS
+    # Getters
+
     def get_name(self):
         return self.__name
 
@@ -57,7 +64,8 @@ class Pet:
     def get_owner(self):
         return self.__owner
 
-    # SETTERS
+    # Setters
+
     def set_name(self, name):
         self.__name = name
 
@@ -72,20 +80,80 @@ class Pet:
 
 
 # =========================
-# PET LIST
-# =========================
-
-pets = []
-
-
-# =========================
 # USERS
 # =========================
 
 users = [
-    Admin("admin", "1234", "Admin"),
-    Veterinarian("vet", "1234", "Veterinarian"),
-    Receptionist("reception", "1234", "Receptionist")
+
+    Admin(
+        "admin",
+        "1234",
+        "Admin"
+    ),
+
+    Veterinarian(
+        "vet",
+        "1234",
+        "Veterinarian"
+    ),
+
+    Receptionist(
+        "reception",
+        "1234",
+        "Receptionist"
+    )
+
+]
+
+
+# =========================
+# PET RECORDS
+# =========================
+
+pets = [
+
+    Pet(
+        "Bantay",
+        "Dog",
+        3,
+        "Juan"
+    ),
+
+    Pet(
+        "Brownie",
+        "Dog",
+        2,
+        "Pedro"
+    ),
+
+    Pet(
+        "Max",
+        "Dog",
+        5,
+        "Ana"
+    ),
+
+    Pet(
+        "Mingming",
+        "Cat",
+        2,
+        "Maria"
+    ),
+
+    Pet(
+        "Mimi",
+        "Cat",
+        1,
+        "Carlo"
+    ),
+
+    Pet(
+        "Luna",
+        "Cat",
+        4,
+        "Rosa"
+    )
+
 ]
 
 
@@ -98,12 +166,15 @@ def login():
 
     if request.method == "POST":
 
-        username = request.form["username"]
+        username = request.form["username"].strip()
         password = request.form["password"]
 
         for user in users:
 
-            if user.username == username and user.password == password:
+            if (
+                user.username.lower() == username.lower()
+                and user.password == password
+            ):
 
                 session["username"] = user.username
                 session["role"] = user.role
@@ -111,9 +182,74 @@ def login():
 
                 return redirect("/dashboard")
 
-        flash("Invalid username or password!")
+        flash("Invalid username or password.")
+
+        return redirect("/")
 
     return render_template("login.html")
+
+
+# =========================
+# SIGN UP
+# =========================
+
+@app.route("/signup", methods=["GET", "POST"])
+def signup():
+
+    if request.method == "POST":
+
+        username = request.form["username"].strip()
+        password = request.form["password"]
+        confirm_password = request.form["confirm_password"]
+
+        # Check empty fields
+
+        if not username or not password or not confirm_password:
+
+            flash("Please fill in all fields.")
+
+            return redirect("/signup")
+
+
+        # Check password
+
+        if password != confirm_password:
+
+            flash("Passwords do not match.")
+
+            return redirect("/signup")
+
+
+        # Check existing username
+
+        for user in users:
+
+            if user.username.lower() == username.lower():
+
+                flash("Username already exists!")
+
+                return redirect("/signup")
+
+
+        # New accounts are Receptionists
+
+        new_user = Receptionist(
+            username,
+            password,
+            "Receptionist"
+        )
+
+        users.append(new_user)
+
+
+        flash(
+            "Account created successfully! You can now log in."
+        )
+
+        return redirect("/")
+
+
+    return render_template("signup.html")
 
 
 # =========================
@@ -124,13 +260,14 @@ def login():
 def dashboard():
 
     if "username" not in session:
+
         return redirect("/")
 
     return render_template(
         "dashboard.html",
         username=session["username"],
         role=session["role"],
-        dashboard_message=session["dashboard_message"]
+        message=session.get("dashboard_message", "")
     )
 
 
@@ -142,61 +279,83 @@ def dashboard():
 def logout():
 
     session.clear()
-    flash("Logged out successfully!")
+
+    flash("You have been logged out.")
 
     return redirect("/")
 
 
 # =========================
-# PET RECORDS / ADD PET
+# ADD PET
 # =========================
 
-@app.route("/pets", methods=["GET", "POST"])
-def pet_records():
+@app.route("/add_pet", methods=["GET", "POST"])
+def add_pet():
 
-    # Check if user is logged in
     if "username" not in session:
+
         return redirect("/")
 
-    # ADD PET
-    if request.method == "POST":
 
-        # Only Admin and Receptionist can add
-        if session["role"] not in ["Admin", "Receptionist"]:
-            flash("You are not allowed to add pets.")
-            return redirect("/pets")
+    role = session["role"]
+
+
+    # Only Admin and Receptionist
+
+    if role not in ["Admin", "Receptionist"]:
+
+        flash(
+            "You do not have permission to add pets."
+        )
+
+        return redirect("/dashboard")
+
+
+    if request.method == "POST":
 
         name = request.form["name"].strip()
         species = request.form["species"].strip()
-        age = request.form["age"].strip()
+        age = request.form["age"]
         owner = request.form["owner"].strip()
 
-        # Check empty fields
+
         if not name or not species or not age or not owner:
+
             flash("Please fill in all fields.")
-            return redirect("/pets")
 
-        # Check if age is a number
-        if not age.isdigit():
-            flash("Age must be a number.")
-            return redirect("/pets")
+            return redirect("/add_pet")
 
-        # Check if age is greater than 0
-        if int(age) <= 0:
-            flash("Age must be greater than 0.")
-            return redirect("/pets")
 
-        # Create Pet
-        new_pet = Pet(name, species, age, owner)
+        new_pet = Pet(
+            name,
+            species,
+            int(age),
+            owner
+        )
 
-        # Add to list
         pets.append(new_pet)
+
 
         flash("Pet added successfully!")
 
         return redirect("/pets")
 
-    # DISPLAY PETS
+
+    return render_template("add_pet.html")
+
+
+# =========================
+# VIEW PETS
+# =========================
+
+@app.route("/pets")
+def view_pets():
+
+    if "username" not in session:
+
+        return redirect("/")
+
+
     return render_template(
         "pets.html",
         pets=pets,
@@ -212,22 +371,27 @@ def pet_records():
 def delete_pet(index):
 
     if "username" not in session:
+
         return redirect("/")
 
-    # Only Admin can delete
+
+    # Only Admin
+
     if session["role"] != "Admin":
-        flash("Only Admin can delete pets.")
+
+        flash(
+            "You do not have permission to delete pets."
+        )
+
         return redirect("/pets")
 
-    # Check if pet exists
-    if index < 0 or index >= len(pets):
-        flash("Pet not found.")
-        return redirect("/pets")
 
-    # Delete pet
-    pets.pop(index)
+    if 0 <= index < len(pets):
 
-    flash("Pet deleted successfully!")
+        pets.pop(index)
+
+        flash("Pet deleted successfully.")
+
 
     return redirect("/pets")
 
@@ -240,54 +404,51 @@ def delete_pet(index):
 def update_pet(index):
 
     if "username" not in session:
+
         return redirect("/")
 
-    # All three roles can update
-    if session["role"] not in ["Admin", "Veterinarian", "Receptionist"]:
-        flash("Access Denied!")
+
+    if index < 0 or index >= len(pets):
+
+        flash("Pet not found.")
+
         return redirect("/pets")
 
-    # Check if pet exists
-    if index < 0 or index >= len(pets):
-        flash("Pet not found.")
-        return redirect("/pets")
 
     pet = pets[index]
 
-    # UPDATE PET
+
     if request.method == "POST":
 
         name = request.form["name"].strip()
         species = request.form["species"].strip()
-        age = request.form["age"].strip()
+        age = request.form["age"]
         owner = request.form["owner"].strip()
 
-        # Check empty fields
+
         if not name or not species or not age or not owner:
+
             flash("Please fill in all fields.")
-            return redirect(f"/update/{index}")
 
-        # Check if age is a number
-        if not age.isdigit():
-            flash("Age must be a number.")
-            return redirect(f"/update/{index}")
+            return redirect(
+                f"/update/{index}"
+            )
 
-        # Check if age is greater than 0
-        if int(age) <= 0:
-            flash("Age must be greater than 0.")
-            return redirect(f"/update/{index}")
 
-        # Update using setters
         pet.set_name(name)
+
         pet.set_species(species)
-        pet.set_age(age)
+
+        pet.set_age(int(age))
+
         pet.set_owner(owner)
+
 
         flash("Pet updated successfully!")
 
         return redirect("/pets")
 
-    # Show update page
+
     return render_template(
         "update_pet.html",
         pet=pet,
@@ -300,32 +461,47 @@ def update_pet(index):
 # =========================
 
 @app.route("/search", methods=["GET", "POST"])
-def search_pet():
+def search():
 
     if "username" not in session:
+
         return redirect("/")
 
-    search_result = []
+
+    search_results = pets
+
 
     if request.method == "POST":
 
-        search_name = request.form["search_name"].strip().lower()
+        query = request.form["query"].strip().lower()
+
+
+        search_results = []
+
 
         for pet in pets:
 
-            if search_name in pet.get_name().lower():
-                search_result.append(pet)
+            if (
+                query in pet.get_name().lower()
+                or query in pet.get_species().lower()
+                or query in pet.get_owner().lower()
+            ):
+
+                search_results.append(pet)
+
 
     return render_template(
-        "search.html",
-        pets=search_result,
-        role=session["role"]
+        "pets.html",
+        pets=search_results,
+        role=session["role"],
+        search=True
     )
 
 
 # =========================
-# RUN APP
+# RUN APPLICATION
 # =========================
 
 if __name__ == "__main__":
+
     app.run(debug=True)

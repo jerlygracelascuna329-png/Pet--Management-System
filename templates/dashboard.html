@@ -1,137 +1,154 @@
 <!DOCTYPE html>
 <html>
+
 <head>
+
     <title>Dashboard - Pet Management System</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='dashboard.css') }}">
+
 </head>
 
 <body>
 
-<div class="container">
-
-    <h1>🐾 Pet Management System</h1>
-
-    <h2>Welcome, {{ username }}! 👋</h2>
+<div class="dashboard-container">
 
 
-    <!-- ROLE INFORMATION -->
+    <!-- HEADER -->
 
-    <div class="role-info">
+    <div class="dashboard-header">
 
-        <h3>{{ dashboard_message }}</h3>
+        <div class="brand">
+
+            <h1>🐾 PetCare</h1>
+
+            <p>Pet Management System</p>
+
+        </div>
+
+
+        <a href="/logout" class="logout-btn">
+            Logout
+        </a>
+
+    </div>
+
+
+    <!-- WELCOME SECTION -->
+
+    <div class="welcome-section">
+
+        <h2>Welcome, {{ username }}! 👋</h2>
 
         <p>
-            <strong>Your Role:</strong> {{ role }}
+            You are logged in as
+            <strong>{{ role }}</strong>.
+        </p>
+
+        <p class="dashboard-message">
+            {{ dashboard_message }}
         </p>
 
     </div>
 
 
-    <hr>
+    <!-- DASHBOARD ACTIONS -->
+
+    <div class="section-title">
+
+        <h2>Quick Actions</h2>
+
+        <p>
+            Manage your pet records using the options below.
+        </p>
+
+    </div>
 
 
-    <!-- ADMIN DASHBOARD -->
+    <div class="dashboard-cards">
 
-    {% if role == "Admin" %}
 
-        <div class="pet-card">
+        <!-- ADD NEW PET -->
 
-            <h2>👑 Admin Dashboard</h2>
+        {% if role == "Admin" or role == "Receptionist" %}
+
+        <div class="dashboard-card">
+
+            <div class="card-icon">➕</div>
+
+            <h3>Add New Pet</h3>
 
             <p>
-                Welcome Admin! You have full access to the Pet Management System.
+                Register a new pet and add it to the system.
             </p>
 
-            <p><strong>You can:</strong></p>
+            <a href="/add_pet" class="main-btn">
+                Add Pet
+            </a>
 
-            <ul>
-                <li>Add Pet</li>
-                <li>View Pet Records</li>
-                <li>Update Pet Information</li>
-                <li>Delete Pet</li>
-            </ul>
+        </div>
+
+        {% endif %}
+
+
+        <!-- VIEW PET RECORDS -->
+
+        <div class="dashboard-card">
+
+            <div class="card-icon">📋</div>
+
+            <h3>Pet Records</h3>
+
+            <p>
+                View and manage all registered pet records.
+            </p>
+
+            <a href="/pets" class="main-btn">
+                View Records
+            </a>
 
         </div>
 
 
-    <!-- VETERINARIAN DASHBOARD -->
+        <!-- SEARCH PET -->
 
-    {% elif role == "Veterinarian" %}
+        <div class="dashboard-card">
 
-        <div class="pet-card">
+            <div class="card-icon">🔍</div>
 
-            <h2>🩺 Veterinarian Dashboard</h2>
+            <h3>Search Pet</h3>
 
             <p>
-                Welcome Veterinarian! You can view and update pet records.
+                Quickly search and find a specific pet record.
             </p>
 
-            <p><strong>You can:</strong></p>
-
-            <ul>
-                <li>View Pet Records</li>
-                <li>Update Pet Information</li>
-            </ul>
+            <a href="/search" class="main-btn">
+                Search Pet
+            </a>
 
         </div>
 
 
-    <!-- RECEPTIONIST DASHBOARD -->
-
-    {% elif role == "Receptionist" %}
-
-        <div class="pet-card">
-
-            <h2>📝 Receptionist Dashboard</h2>
-
-            <p>
-                Welcome Receptionist! You can add, view, and update pet records.
-            </p>
-
-            <p><strong>You can:</strong></p>
-
-            <ul>
-                <li>Add Pet</li>
-                <li>View Pet Records</li>
-                <li>Update Pet Information</li>
-            </ul>
-
-        </div>
-
-    {% endif %}
+    </div>
 
 
-    <hr>
+    <!-- FOOTER -->
 
+    <div class="footer">
 
-    <!-- NAVIGATION -->
+        <p>🐾 PetCare Management System</p>
 
-    <h2>Menu</h2>
+        <p>
+            Simple • Organized • Reliable
+        </p>
 
-    <a href="/pets">🐾 Manage Pets</a>
-
-    <a href="/search">🔍 Search Pet</a>
-
-    <a href="/logout">🚪 Logout</a>
+    </div>
 
 
 </div>
 
-<script>
-    // Staggered entrance animation para sa pet cards
-    document.querySelectorAll('.pet-card').forEach(function(card, i) {
-        card.style.animationDelay = (i * 0.08) + 's';
-    });
-
-    // Auto-hide ang flash messages after 3.5 seconds
-    document.querySelectorAll('.flash-message').forEach(function(el) {
-        setTimeout(function() {
-            el.style.opacity = '0';
-            el.style.transform = 'translateY(-10px)';
-            setTimeout(function() { el.remove(); }, 500);
-        }, 3500);
-    });
-</script>
-
 </body>
+
 </html>
+

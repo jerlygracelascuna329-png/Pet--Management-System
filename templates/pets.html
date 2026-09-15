@@ -1,146 +1,261 @@
 <!DOCTYPE html>
+
 <html>
 <head>
     <title>Pet Records - Pet Management System</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+```
+<link rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}">
+
+<link rel="stylesheet"
+      href="{{ url_for('static', filename='pets.css') }}">
+```
+
 </head>
 
 <body>
 
 <div class="container">
 
-    <h1>🐾 Pet Management System</h1>
+```
+<!-- PAGE HEADER -->
+
+<h1>🐾 Pet Management System</h1>
+
+<p class="page-subtitle">
+    View and manage all registered pet records.
+</p>
 
 
-    <!-- ADD PET -->
-    {% if role == "Admin" or role == "Receptionist" %}
+<!-- PET RECORDS -->
 
-    <div class="pet-card">
+<div class="records-section">
 
-        <h2>➕ Add Pet</h2>
+    <div class="records-header">
 
+        <h2>📋 Pet Records</h2>
 
-        <!-- FLASH MESSAGES -->
-        {% with messages = get_flashed_messages() %}
-            {% if messages %}
-                {% for message in messages %}
-                    <p class="flash-message">{{ message }}</p>
-                {% endfor %}
-            {% endif %}
-        {% endwith %}
-
-
-        <form method="POST">
-
-            <label>🐶 Pet Name:</label>
-            <input type="text" name="name" required>
-
-
-            <label>🐾 Species:</label>
-            <input type="text" name="species" required>
-
-
-            <label>🎂 Age:</label>
-            <input type="number" name="age" min="1" required>
-
-
-            <label>👤 Owner:</label>
-            <input type="text" name="owner" required>
-
-
-            <button type="submit">➕ Add Pet</button>
-
-        </form>
+        <p>
+            Organized records of all registered pets.
+        </p>
 
     </div>
 
-    {% endif %}
+
+    <!-- DOGS -->
+
+    <div class="pet-category">
+
+        <h2 class="category-title">
+            🐶 Dogs
+        </h2>
+
+        <div class="pet-grid">
+
+            {% for pet in pets %}
+
+                {% if pet.get_species().lower() == "dog" %}
+
+                <div class="pet-card">
+
+                    <h3>
+                        🐶 {{ pet.get_name() }}
+                    </h3>
+
+                    <p>
+                        <strong>Species:</strong>
+                        {{ pet.get_species() }}
+
+                        <br>
+
+                        <strong>Age:</strong>
+                        {{ pet.get_age() }}
+
+                        <br>
+
+                        <strong>Owner:</strong>
+                        {{ pet.get_owner() }}
+                    </p>
 
 
-    <hr>
+                    <div class="pet-actions">
+
+                        <a href="/update/{{ loop.index0 }}"
+                           class="update-btn">
+
+                            ✏️ Update
+
+                        </a>
 
 
-    <!-- PET RECORDS -->
+                        {% if role == "Admin" %}
 
-    <h2>📋 Pet Records</h2>
+                        <a href="/delete/{{ loop.index0 }}"
+                           class="delete-btn"
+                           onclick="return confirm('Are you sure you want to delete this pet?');">
 
+                            🗑️ Delete
 
-    {% if pets %}
+                        </a>
 
-        {% for pet in pets %}
+                        {% endif %}
 
-        <div class="pet-card">
+                    </div>
 
-            <h3>🐾 {{ pet.get_name() }}</h3>
+                </div>
 
-            <p>
-                <strong>Species:</strong> {{ pet.get_species() }}<br>
-                <strong>Age:</strong> {{ pet.get_age() }}<br>
-                <strong>Owner:</strong> {{ pet.get_owner() }}
-            </p>
+                {% endif %}
 
-
-            <!-- UPDATE BUTTON -->
-
-            <a href="/update/{{ loop.index0 }}">
-                ✏️ Update
-            </a>
-
-
-            <!-- DELETE BUTTON - ADMIN ONLY -->
-
-            {% if role == "Admin" %}
-
-                <a href="/delete/{{ loop.index0 }}">
-                    🗑️ Delete
-                </a>
-
-            {% endif %}
+            {% endfor %}
 
         </div>
 
-        {% endfor %}
+    </div>
 
 
-    {% else %}
+    <!-- CATS -->
 
-        <div class="pet-card">
-            <p>🐾 No pet records yet.</p>
+    <div class="pet-category">
+
+        <h2 class="category-title">
+            🐱 Cats
+        </h2>
+
+        <div class="pet-grid">
+
+            {% for pet in pets %}
+
+                {% if pet.get_species().lower() == "cat" %}
+
+                <div class="pet-card">
+
+                    <h3>
+                        🐱 {{ pet.get_name() }}
+                    </h3>
+
+                    <p>
+                        <strong>Species:</strong>
+                        {{ pet.get_species() }}
+
+                        <br>
+
+                        <strong>Age:</strong>
+                        {{ pet.get_age() }}
+
+                        <br>
+
+                        <strong>Owner:</strong>
+                        {{ pet.get_owner() }}
+                    </p>
+
+
+                    <div class="pet-actions">
+
+                        <a href="/update/{{ loop.index0 }}"
+                           class="update-btn">
+
+                            ✏️ Update
+
+                        </a>
+
+
+                        {% if role == "Admin" %}
+
+                        <a href="/delete/{{ loop.index0 }}"
+                           class="delete-btn"
+                           onclick="return confirm('Are you sure you want to delete this pet?');">
+
+                            🗑️ Delete
+
+                        </a>
+
+                        {% endif %}
+
+                    </div>
+
+                </div>
+
+                {% endif %}
+
+            {% endfor %}
+
         </div>
+
+    </div>
+
+</div>
+
+
+<!-- NAVIGATION -->
+
+<div class="pet-navigation">
+
+    {% if role == "Admin" or role == "Receptionist" %}
+
+    <a href="/add_pet"
+       class="nav-btn back-btn">
+
+        ➕ Add New Pet
+
+    </a>
 
     {% endif %}
 
 
-    <hr>
+    <a href="/search"
+       class="nav-btn">
 
-
-    <!-- NAVIGATION -->
-
-    <a href="/search">
         🔍 Search Pet
+
     </a>
 
-    <a href="/dashboard">
+
+    <a href="/dashboard"
+       class="nav-btn back-btn">
+
         🏠 Back to Dashboard
+
     </a>
 
+</div>
+```
 
 </div>
 
 <script>
-    // Staggered entrance animation para sa pet cards
+
+    /* Animation delay */
+
     document.querySelectorAll('.pet-card').forEach(function(card, i) {
-        card.style.animationDelay = (i * 0.08) + 's';
+
+        card.style.animationDelay =
+            (i * 0.08) + 's';
+
     });
 
-    // Auto-hide ang flash messages after 3.5 seconds
+
+    /* Auto-hide flash messages */
+
     document.querySelectorAll('.flash-message').forEach(function(el) {
+
         setTimeout(function() {
-            el.style.opacity = '0';
-            el.style.transform = 'translateY(-10px)';
-            setTimeout(function() { el.remove(); }, 500);
+
+            el.style.opacity = "0";
+
+            el.style.transform =
+                "translateY(-10px)";
+
+            setTimeout(function() {
+
+                el.remove();
+
+            }, 500);
+
         }, 3500);
+
     });
+
 </script>
 
 </body>

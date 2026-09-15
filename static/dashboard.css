@@ -1,0 +1,540 @@
+/* ============================================================
+   PET MANAGEMENT SYSTEM — BROWN PET THEME DASHBOARD
+   ============================================================ */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+/* ============================================================
+   BACKGROUND
+   ============================================================ */
+
+body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+
+    min-height: 100vh;
+    padding: 30px;
+
+    color: #333;
+
+    background-image:
+        linear-gradient(
+            rgba(78, 52, 46, 0.25),
+            rgba(78, 52, 46, 0.25)
+        ),
+        url("/static/image.png");
+
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+
+/* ============================================================
+   MAIN DASHBOARD CONTAINER
+   ============================================================ */
+
+.dashboard-container {
+    max-width: 1100px;
+    margin: auto;
+
+    background: rgba(255, 248, 240, 0.95);
+
+    padding: 35px;
+
+    border-radius: 20px;
+
+    box-shadow:
+        0 10px 40px rgba(78, 52, 46, 0.30);
+
+    animation: fadeInUp 0.7s ease both;
+}
+
+
+/* ============================================================
+   DASHBOARD HEADER
+   ============================================================ */
+
+.dashboard-header {
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    padding-bottom: 25px;
+
+    border-bottom: 2px solid #D7C2B2;
+}
+
+
+.dashboard-header h1 {
+    font-size: 34px;
+
+    color: #333;
+
+    margin-bottom: 5px;
+}
+
+
+.dashboard-header p {
+    color: #666;
+
+    font-size: 15px;
+}
+
+
+/* ============================================================
+   LOGOUT BUTTON
+   ============================================================ */
+
+.logout-btn {
+    text-decoration: none;
+
+    background:
+        linear-gradient(
+            135deg,
+            #795548,
+            #4E342E
+        );
+
+    color: white;
+
+    padding: 12px 22px;
+
+    border-radius: 10px;
+
+    font-weight: bold;
+
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+
+.logout-btn:hover {
+    transform: translateY(-3px);
+
+    box-shadow:
+        0 8px 20px rgba(78, 52, 46, 0.35);
+}
+
+
+.logout-btn:active {
+    transform: translateY(0);
+}
+
+
+/* ============================================================
+   WELCOME SECTION
+   ============================================================ */
+
+.welcome-section {
+    margin-top: 30px;
+
+    padding: 28px;
+
+    border-radius: 16px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #F3E5D8,
+            #EAD7C0
+        );
+
+    border-left:
+        6px solid #6F4E37;
+
+    animation:
+        fadeInUp 0.7s ease both;
+}
+
+
+.welcome-section h2 {
+    font-size: 27px;
+
+    color: #333;
+
+    margin-bottom: 12px;
+}
+
+
+.welcome-section p {
+    color: #555;
+
+    margin-top: 8px;
+
+    line-height: 1.6;
+}
+
+
+.dashboard-message {
+    margin-top: 18px !important;
+
+    padding: 14px 18px;
+
+    background: #FFFDF9;
+
+    border-radius: 10px;
+
+    border-left:
+        4px solid #8D6E63;
+
+    font-style: italic;
+
+    color: #555;
+
+    box-shadow:
+        0 4px 12px rgba(78, 52, 46, 0.08);
+}
+
+
+/* ============================================================
+   QUICK ACTIONS TITLE
+   ============================================================ */
+
+.section-title {
+    margin-top: 35px;
+
+    margin-bottom: 5px;
+}
+
+
+.section-title h2 {
+    color: #333;
+
+    font-size: 24px;
+
+    margin-bottom: 8px;
+}
+
+
+.section-title p {
+    color: #777;
+
+    font-size: 15px;
+}
+
+
+/* ============================================================
+   DASHBOARD CARDS
+   ============================================================ */
+
+.dashboard-cards {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 25px;
+
+    margin-top: 35px;
+
+    align-items: stretch;
+}
+
+
+/* ============================================================
+   INDIVIDUAL CARD
+   ============================================================ */
+
+.dashboard-card {
+    width: 100%;
+
+    min-height: 280px;
+
+    background: #FFF8F0;
+
+    padding: 32px 28px;
+
+    text-align: center;
+
+    border-radius: 18px;
+
+    border:
+        1px solid #D7C2B2;
+
+    box-shadow:
+        0 8px 25px rgba(78, 52, 46, 0.15);
+
+    transition:
+        transform 0.3s ease,
+        box-shadow 0.3s ease;
+
+    animation:
+        fadeInUp 0.8s ease both;
+
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: center;
+
+    align-items: center;
+}
+
+
+.dashboard-card:hover {
+    transform:
+        translateY(-10px);
+
+    box-shadow:
+        0 18px 35px rgba(78, 52, 46, 0.25);
+}
+
+
+/* ============================================================
+   CARD ICON
+   ============================================================ */
+
+.card-icon {
+    font-size: 55px;
+
+    margin-bottom: 15px;
+
+    animation:
+        floatIcon 3s ease-in-out infinite;
+}
+
+
+/* ============================================================
+   CARD TEXT
+   ============================================================ */
+
+.dashboard-card h3 {
+    font-size: 23px;
+
+    color: #333;
+
+    margin-bottom: 12px;
+}
+
+
+.dashboard-card p {
+    color: #666;
+
+    line-height: 1.6;
+
+    margin-bottom: 24px;
+}
+
+
+/* ============================================================
+   MAIN BUTTON
+   ============================================================ */
+
+.main-btn {
+    display: inline-block;
+
+    text-decoration: none;
+
+    background:
+        linear-gradient(
+            135deg,
+            #8D6E63,
+            #5D4037
+        );
+
+    color: white;
+
+    padding: 12px 25px;
+
+    border-radius: 10px;
+
+    font-weight: bold;
+
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+
+.main-btn:hover {
+    transform:
+        translateY(-3px);
+
+    box-shadow:
+        0 8px 20px rgba(93, 64, 55, 0.40);
+}
+
+
+.main-btn:active {
+    transform:
+        translateY(0)
+        scale(0.97);
+}
+
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+
+.footer {
+    text-align: center;
+
+    margin-top: 40px;
+
+    padding-top: 22px;
+
+    border-top:
+        1px solid #D7C2B2;
+
+    color: #777;
+
+    font-size: 14px;
+
+    line-height: 1.7;
+}
+
+
+.footer p:first-child {
+    font-weight: bold;
+
+    color: #555;
+}
+
+
+/* ============================================================
+   ANIMATIONS
+   ============================================================ */
+
+@keyframes fadeInUp {
+
+    0% {
+        opacity: 0;
+
+        transform:
+            translateY(25px);
+    }
+
+    100% {
+        opacity: 1;
+
+        transform:
+            translateY(0);
+    }
+}
+
+
+@keyframes floatIcon {
+
+    0% {
+        transform:
+            translateY(0);
+    }
+
+    50% {
+        transform:
+            translateY(-8px);
+    }
+
+    100% {
+        transform:
+            translateY(0);
+    }
+}
+
+
+/* ============================================================
+   TABLET
+   ============================================================ */
+
+@media (max-width: 900px) {
+
+    .dashboard-cards {
+        grid-template-columns:
+            repeat(2, 1fr);
+    }
+
+}
+
+
+/* ============================================================
+   MOBILE
+   ============================================================ */
+
+@media (max-width: 600px) {
+
+    body {
+        padding: 15px;
+    }
+
+
+    .dashboard-container {
+        padding: 25px 20px;
+    }
+
+
+    .dashboard-header {
+        flex-direction: column;
+
+        align-items: flex-start;
+
+        gap: 20px;
+    }
+
+
+    .logout-btn {
+        width: 100%;
+
+        text-align: center;
+    }
+
+
+    .dashboard-cards {
+        grid-template-columns: 1fr;
+
+        gap: 20px;
+    }
+
+
+    .dashboard-header h1 {
+        font-size: 28px;
+    }
+
+
+    .welcome-section {
+        padding: 20px;
+    }
+
+
+    .welcome-section h2 {
+        font-size: 23px;
+    }
+
+
+    .dashboard-card {
+        min-height: 260px;
+
+        padding: 25px 20px;
+    }
+
+
+    .main-btn {
+        width: 100%;
+
+        text-align: center;
+    }
+
+}
+
+
+/* ============================================================
+   ACCESSIBILITY
+   ============================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+
+    * {
+        animation: none !important;
+
+        transition: none !important;
+    }
+
+}

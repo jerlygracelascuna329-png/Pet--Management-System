@@ -1,0 +1,714 @@
+/* ============================================================
+   PET MANAGEMENT SYSTEM — PETS PAGE
+   SAME THEME AS DASHBOARD
+   ============================================================ */
+
+
+/* ============================================================
+   ADD PET CARD
+   ============================================================ */
+
+.add-pet-card {
+
+    margin-top: 30px;
+
+    padding: 32px;
+
+    background: rgba(255, 255, 255, 0.92);
+}
+
+
+
+/* ============================================================
+   ADD PET HEADER
+   ============================================================ */
+
+.add-pet-header {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    padding-bottom: 20px;
+
+    margin-bottom: 25px;
+
+    border-bottom: 2px solid #eeeeee;
+
+}
+
+
+.add-pet-header h2 {
+
+    margin: 0 0 6px;
+
+    color: #2e7d32;
+
+    font-size: 25px;
+
+    font-weight: 700;
+
+}
+
+
+.add-pet-header p {
+
+    margin: 0;
+
+    color: #777;
+
+    font-size: 14px;
+
+}
+
+
+/* ============================================================
+   ADD PET FORM
+   ============================================================ */
+
+.add-pet-form {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+    gap: 22px;
+
+}
+
+
+/* ============================================================
+   FORM GROUP
+   ============================================================ */
+
+.form-group {
+
+    display: flex;
+
+    flex-direction: column;
+
+}
+
+
+.form-group label {
+
+    margin-bottom: 8px;
+
+    color: #374151;
+
+    font-size: 14px;
+
+    font-weight: 600;
+
+}
+
+
+/* ============================================================
+   FORM INPUTS
+   ============================================================ */
+
+.add-pet-form input {
+
+    width: 100%;
+
+    padding: 13px 15px;
+
+    border:
+        2px solid #e5e7eb;
+
+    border-radius: 10px;
+
+    background: #ffffff;
+
+    color: #333;
+
+    font-size: 15px;
+
+    transition:
+        border-color 0.25s ease,
+        box-shadow 0.25s ease,
+        transform 0.25s ease;
+
+}
+
+
+.add-pet-form input:focus {
+
+    outline: none;
+
+    border-color: #4caf50;
+
+    box-shadow:
+        0 0 0 4px rgba(76, 175, 80, 0.12);
+
+    transform:
+        translateY(-1px);
+
+}
+
+
+.add-pet-form input::placeholder {
+
+    color: #9ca3af;
+
+}
+
+
+/* ============================================================
+   FORM ACTIONS
+   ============================================================ */
+
+.form-actions {
+
+    grid-column: 1 / -1;
+
+    display: flex;
+
+    justify-content: flex-end;
+
+    margin-top: 8px;
+
+}
+
+
+/* ============================================================
+   ADD PET BUTTON
+   ============================================================ */
+
+.add-pet-btn {
+
+    width: auto;
+
+    min-width: 170px;
+
+    margin: 0;
+
+    padding: 13px 28px;
+
+    border: none;
+
+    border-radius: 10px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #4caf50,
+            #2e7d32
+        );
+
+    color: white;
+
+    font-size: 15px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease;
+
+}
+
+
+.add-pet-btn:hover {
+
+    transform:
+        translateY(-3px);
+
+    box-shadow:
+        0 8px 20px rgba(76, 175, 80, 0.35);
+
+}
+
+
+.add-pet-btn:active {
+
+    transform:
+        translateY(0) scale(0.97);
+
+}
+
+
+/* ============================================================
+   FLASH MESSAGE
+   ============================================================ */
+
+.add-pet-card .flash-message {
+
+    margin-bottom: 20px;
+
+    padding: 13px 16px;
+
+    border-radius: 10px;
+
+    background: #e8f5e9;
+
+    color: #2e7d32;
+
+    border-left:
+        5px solid #4caf50;
+
+    font-weight: bold;
+
+    animation:
+        slideDown 0.5s ease both;
+
+}
+
+
+/* ============================================================
+   PET RECORDS SECTION
+   ============================================================ */
+
+.records-section {
+
+    margin-top: 40px;
+
+    animation:
+        fadeInUp 0.8s ease both;
+
+}
+
+
+.records-header {
+
+    margin-bottom: 25px;
+
+}
+
+
+.records-header h2 {
+
+    color: #2e7d32;
+
+    font-size: 26px;
+
+    margin-bottom: 8px;
+
+}
+
+
+.records-header p {
+
+    color: #777;
+
+    font-size: 14px;
+
+}
+
+
+/* ============================================================
+   PET CATEGORY
+   ============================================================ */
+
+.pet-category {
+
+    margin-top: 30px;
+
+}
+
+
+.category-title {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    color: #333;
+
+    font-size: 20px;
+
+    margin-bottom: 18px;
+
+}
+
+
+.category-title::after {
+
+    content: "";
+
+    flex: 1;
+
+    height: 2px;
+
+    background:
+        linear-gradient(
+            90deg,
+            #4caf50,
+            transparent
+        );
+
+}
+
+
+/* ============================================================
+   PET GRID
+   ============================================================ */
+
+.pet-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(auto-fit, minmax(260px, 1fr));
+
+    gap: 20px;
+
+}
+
+
+/* ============================================================
+   PET CARD
+   ============================================================ */
+
+.pet-card {
+
+    position: relative;
+
+    padding: 24px;
+
+    border-radius: 16px;
+
+    border:
+        1px solid rgba(0, 0, 0, 0.06);
+
+    border-left:
+        5px solid #4caf50;
+
+    background:
+        linear-gradient(
+            145deg,
+            #ffffff,
+            #f8fbff
+        );
+
+    box-shadow:
+        0 6px 18px rgba(0, 0, 0, 0.07);
+
+    animation:
+        fadeInUp 0.7s ease both;
+
+    transition:
+        transform 0.3s ease,
+        box-shadow 0.3s ease;
+
+}
+
+
+.pet-card:hover {
+
+    transform:
+        translateY(-7px);
+
+    box-shadow:
+        0 15px 30px rgba(0, 0, 0, 0.12);
+
+}
+
+
+/* ============================================================
+   PET CARD CONTENT
+   ============================================================ */
+
+.pet-card h3 {
+
+    color: #2e7d32;
+
+    font-size: 21px;
+
+    margin-bottom: 14px;
+
+}
+
+
+.pet-card p {
+
+    color: #666;
+
+    line-height: 1.8;
+
+    margin-bottom: 20px;
+
+}
+
+
+.pet-card strong {
+
+    color: #374151;
+
+}
+
+
+/* ============================================================
+   PET ACTION BUTTONS
+   ============================================================ */
+
+.pet-actions {
+
+    display: flex;
+
+    gap: 10px;
+
+    flex-wrap: wrap;
+
+}
+
+
+.update-btn {
+
+    background:
+        linear-gradient(
+            135deg,
+            #2196f3,
+            #1976d2
+        );
+
+}
+
+
+.delete-btn {
+
+    background:
+        linear-gradient(
+            135deg,
+            #ef5350,
+            #c62828
+        );
+
+}
+
+
+.update-btn,
+.delete-btn {
+
+    display: inline-block;
+
+    text-decoration: none;
+
+    color: white;
+
+    padding: 10px 16px;
+
+    border-radius: 8px;
+
+    font-size: 14px;
+
+    font-weight: bold;
+
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease;
+
+}
+
+
+.update-btn:hover,
+.delete-btn:hover {
+
+    transform:
+        translateY(-2px);
+
+    box-shadow:
+        0 6px 15px rgba(0, 0, 0, 0.15);
+
+}
+
+
+/* ============================================================
+   NAVIGATION BUTTONS
+   ============================================================ */
+
+.pet-navigation {
+
+    display: flex;
+
+    gap: 12px;
+
+    flex-wrap: wrap;
+
+    margin-top: 35px;
+
+}
+
+
+.nav-btn {
+
+    display: inline-block;
+
+    text-decoration: none;
+
+    padding: 12px 20px;
+
+    border-radius: 10px;
+
+    font-weight: bold;
+
+    color: white;
+
+    background:
+        linear-gradient(
+            135deg,
+            #2196f3,
+            #1976d2
+        );
+
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease;
+
+}
+
+
+.nav-btn:hover {
+
+    transform:
+        translateY(-3px);
+
+    box-shadow:
+        0 8px 18px rgba(33, 150, 243, 0.3);
+
+}
+
+
+.back-btn {
+
+    background:
+        linear-gradient(
+            135deg,
+            #4caf50,
+            #2e7d32
+        );
+
+}
+
+
+/* ============================================================
+   EMPTY RECORDS
+   ============================================================ */
+
+.empty-records {
+
+    text-align: center;
+
+    padding: 35px;
+
+    background: white;
+
+    border-radius: 16px;
+
+    color: #777;
+
+    box-shadow:
+        0 5px 15px rgba(0, 0, 0, 0.05);
+
+}
+
+
+/* ============================================================
+   RESPONSIVE DESIGN
+   ============================================================ */
+
+@media (max-width: 700px) {
+
+    .add-pet-card {
+
+        padding: 25px 20px;
+
+    }
+
+
+    .add-pet-form {
+
+        grid-template-columns: 1fr;
+
+    }
+
+
+    .form-actions {
+
+        justify-content: stretch;
+
+    }
+
+
+    .add-pet-btn {
+
+        width: 100%;
+
+    }
+
+
+    .pet-grid {
+
+        grid-template-columns: 1fr;
+
+    }
+
+}
+
+
+@media (max-width: 500px) {
+
+    .pet-card {
+
+        padding: 20px;
+
+    }
+
+
+    .pet-actions {
+
+        flex-direction: column;
+
+    }
+
+
+    .update-btn,
+    .delete-btn {
+
+        width: 100%;
+
+        text-align: center;
+
+    }
+
+
+    .pet-navigation {
+
+        flex-direction: column;
+
+    }
+
+
+    .nav-btn {
+
+        width: 100%;
+
+        text-align: center;
+
+    }
+
+}
+
+
+/* ============================================================
+   ACCESSIBILITY
+   ============================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+
+    * {
+
+        animation: none !important;
+
+        transition: none !important;
+
+    }
+
+}

@@ -5,9 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Login - Pet Management System</title>
+    <title>Sign Up - Pet Management System</title>
 
-    <link rel="stylesheet" href="{{ url_for('static', filename='login.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='signup.css') }}">
 </head>
 
 <body>
@@ -33,7 +33,7 @@
     </div>
 
 
-    <!-- Login Page -->
+    <!-- Sign Up Page -->
     <div class="login-page">
 
         <div class="login-card">
@@ -58,11 +58,11 @@
             <div class="welcome-divider"></div>
 
 
-            <!-- Welcome -->
-            <h2>Welcome Back</h2>
+            <!-- Create Account -->
+            <h2>Create Account</h2>
 
             <p class="welcome-text">
-                Login to manage your pet records.
+                Create your account to manage your pet records.
             </p>
 
 
@@ -84,7 +84,7 @@
             {% endwith %}
 
 
-            <!-- Login Form -->
+            <!-- Sign Up Form -->
             <form method="POST">
 
                 <!-- Username -->
@@ -104,7 +104,7 @@
                             type="text"
                             id="username"
                             name="username"
-                            placeholder="Enter your username"
+                            placeholder="Create your username"
                             autocomplete="username"
                             required
                         >
@@ -131,33 +131,76 @@
                             type="password"
                             id="password"
                             name="password"
-                            placeholder="Enter your password"
-                            autocomplete="current-password"
+                            placeholder="Create your password"
+                            autocomplete="new-password"
                             required
                         >
-
-                        <!-- Show / Hide Password -->
-                        <span
-                            class="password-toggle"
-                            onclick="togglePassword('password', this)"
-                            title="Show password"
-                        >
-                            👁
-                        </span>
 
                     </div>
 
                 </div>
 
 
-                <!-- Login Button -->
+                <!-- Confirm Password -->
+                <div class="input-group">
+
+                    <label for="confirm_password">
+                        Confirm Password
+                    </label>
+
+                    <div class="input-wrapper">
+
+                        <span class="input-icon">
+                            🔒
+                        </span>
+
+                        <input
+                            type="password"
+                            id="confirm_password"
+                            name="confirm_password"
+                            placeholder="Confirm your password"
+                            autocomplete="new-password"
+                            required
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <!-- Role -->
+                <div class="input-group">
+
+                    <label for="role">
+                        Role
+                    </label>
+
+                    <div class="input-wrapper">
+
+                        <span class="input-icon">
+                            👨‍💼
+                        </span>
+
+                        <input
+                            type="text"
+                            id="role"
+                            value="Receptionist"
+                            readonly
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <!-- Create Account Button -->
                 <button
                     type="submit"
-                    class="login-btn"
+                    class="login-btn create-account-btn"
                 >
 
                     <span>
-                        Login to System
+                        Create Account
                     </span>
 
                     <span class="button-icon">
@@ -169,18 +212,18 @@
             </form>
 
 
-            <!-- Sign Up Section -->
+            <!-- Back to Login -->
             <div class="signup-section">
 
                 <p>
-                    Don't have an account?
+                    Already have an account?
                 </p>
 
                 <a
-                    href="{{ url_for('signup') }}"
+                    href="{{ url_for('login') }}"
                     class="signup-btn"
                 >
-                    Sign Up
+                    Back to Login
                 </a>
 
             </div>
@@ -203,32 +246,6 @@
     <!-- JavaScript -->
     <script>
 
-        function togglePassword(inputId, icon) {
-
-            const input = document.getElementById(inputId);
-
-            if (input.type === "password") {
-
-                input.type = "text";
-
-                icon.textContent = "🙈";
-
-                icon.title = "Hide password";
-
-            } else {
-
-                input.type = "password";
-
-                icon.textContent = "👁";
-
-                icon.title = "Show password";
-
-            }
-
-        }
-
-
-        // Automatically hide flash messages
         document.querySelectorAll('.flash-message').forEach(function(el) {
 
             setTimeout(function() {
