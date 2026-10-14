@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Appointments - PetCare</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div class="dashboard-container">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <div class="petcare-logo">
+            <div class="logo-image">
+                <img src="{{ url_for('static', filename='petcare-logo.png') }}"
+                     onerror="this.onerror=null; this.parentElement.innerHTML='<span style=\'font-size:35px;\'>🐾</span>';"
+                     alt="PetCare Logo">
+            </div>
+            <div class="logo-text">
+                <strong>PetCare</strong>
+                <small>Healthy Pets • Happy Lives</small>
+            </div>
+        </div>
+
+        <div class="sidebar-profile">
+            <div class="profile-icon">
+                {% if role == "Administrator" %}👨‍💼{% elif role == "Veterinarian" %}🧑‍⚕️{% else %}👤{% endif %}
+            </div>
+            <div class="profile-info">
+                <strong>{{ role }}</strong>
+                <small>{{ session["username"] }}</small>
+            </div>
+        </div>
+
+        <nav class="sidebar-menu">
+            <a href="/dashboard" class="sidebar-link"><span class="menu-icon">🏠</span><span>Dashboard</span></a>
+            <a href="/pets" class="sidebar-link"><span class="menu-icon">🐾</span><span>Manage Pets</span></a>
+            <a href="/appointments" class="sidebar-link active"><span class="menu-icon">📅</span><span>Appointments</span></a>
+            {% if role == "Administrator" %}
+            <a href="/users" class="sidebar-link"><span class="menu-icon">👥</span><span>Manage Users</span></a>
+            {% endif %}
+            <a href="/requests" class="sidebar-link"><span class="menu-icon">📋</span><span>Requests</span></a>
+        </nav>
+
+        <div class="sidebar-logout">
+            <a href="/logout" class="sidebar-link logout-link"><span class="menu-icon">🚪</span><span>Logout</span></a>
+        </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+        <div class="dashboard-header">
+            <div>
+                {% if role == "Pet Owner" %}
+                <h1>📅 My Appointments</h1>
+                <p>View and manage your scheduled veterinary appointments.</p>
+                {% else %}
+                <h1>📅 Manage Appointments</h1>
+                <p>Review, verify, and approve patient appointments.</p>
+                {% endif %}
+            </div>
+            <div class="header-paw">📅</div>
+        </div>
+
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        {% if role == "Pet Owner" %}
+        <div class="card">
+            <div class="card-header">
+                <div>
+                    <h2>🐾 Schedule a Visit</h2>
+                    <p>Book a consultation or service appointment for your pet.</p>
+                </div>
+                <a href="/add_appointment" class="btn btn-primary">➕ Book Appointment</a>
+            </div>
+        </div>
+        {% endif %}
+
+        <div class="card">
+            <div class="card-header">
+                <div>
+                    <h2>📋 Appointment Records</h2>
+                    <p>Current list of scheduled sessions.</p>
+                </div>
+            </div>
+
+            {% if appointments %}
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            {% if role != "Pet Owner" %}<th>Client</th>{% endif %}
+                            <th>Pet</th>
+                            <th>Date</th>
+                            <th>Time</th>
+                            <th>Service</th>
+                            <th>Veterinarian</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for real_idx, appointment in appointments %}
+                        <tr>
+                            <td>{{ loop.index }}</td>
+                            {% if role != "Pet Owner" %}
+                            <td><strong>👤 {{ appointment.client }}</strong></td>
+                            {% endif %}
+                            <td>🐾 {{ appointment.pet }}</td>
+                            <td>{{ appointment.appointment_date }}</td>
+                            <td>{{ appointment.appointment_time }}</td>
+                            <td>{{ appointment.service }}</td>
+                            <td>🧑‍⚕️ {{ appointment.veterinarian }}</td>
+                            <td>
+                                {% if appointment.status == "Approved" %}
+                                <span class="status approved">✓ Approved</span>
+                                {% elif appointment.status == "Pending" %}
+                                <span class="status pending">⏳ Pending</span>
+                                {% else %}
+                                <span class="status">{{ appointment.status }}</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                <div class="actions">
+                                    <!-- Pet Owner edit pending -->
+                                    {% if role == "Pet Owner" and appointment.status == "Pending" %}
+                                    <a href="/edit_appointment/{{ real_idx }}" class="btn btn-primary btn-small">
+                                        ✏️ Edit
+                                    </a>
+                                    {% endif %}
+
+                                    <!-- Admin / Vet approve -->
+                                    {% if role in ["Administrator", "Veterinarian"] and appointment.status == "Pending" %}
+                                    <a href="/process_appointment/{{ real_idx }}" class="btn btn-success btn-small">
+                                        ✓ Approve
+                                    </a>
+                                    {% endif %}
+
+                                    <!-- Admin cancel -->
+                                    {% if role == "Administrator" %}
+                                    <a href="/delete_appointment/{{ real_idx }}" class="btn btn-danger btn-small"
+                                       onclick="return confirm('Cancel and delete this appointment?');">
+                                        🗑️ Cancel
+                                    </a>
+                                    {% endif %}
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+            <div class="empty-state">
+                <div class="empty-icon">📅</div>
+                <h3>No Appointments Found</h3>
+                <p>No appointments registered yet.</p>
+                {% if role == "Pet Owner" %}
+                <a href="/add_appointment" class="btn btn-primary" style="margin-top:10px;">➕ Book Appointment</a>
+                {% endif %}
+            </div>
+            {% endif %}
+
+            <div class="actions" style="margin-top: 20px;">
+                <a href="/dashboard" class="btn btn-secondary">← Back to Dashboard</a>
+            </div>
+        </div>
+    </main>
+
+</div>
+
+</body>
+</html>

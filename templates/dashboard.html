@@ -1,154 +1,143 @@
 <!DOCTYPE html>
 <html>
-
 <head>
-
-    <title>Dashboard - Pet Management System</title>
-
-    <link rel="stylesheet"
-          href="{{ url_for('static', filename='dashboard.css') }}">
-
+    <title>PetCare - Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
-
 <body>
 
 <div class="dashboard-container">
 
-
-    <!-- HEADER -->
-
-    <div class="dashboard-header">
-
-        <div class="brand">
-
-            <h1>🐾 PetCare</h1>
-
-            <p>Pet Management System</p>
-
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <div class="petcare-logo">
+            <div class="logo-image">
+                <img src="{{ url_for('static', filename='petcare-logo.png') }}"
+                     onerror="this.onerror=null; this.parentElement.innerHTML='<span style=\'font-size:35px;\'>🐾</span>';"
+                     alt="PetCare Logo">
+            </div>
+            <div class="logo-text">
+                <strong>PetCare</strong>
+                <small>Healthy Pets • Happy Lives</small>
+            </div>
         </div>
 
-
-        <a href="/logout" class="logout-btn">
-            Logout
-        </a>
-
-    </div>
-
-
-    <!-- WELCOME SECTION -->
-
-    <div class="welcome-section">
-
-        <h2>Welcome, {{ username }}! 👋</h2>
-
-        <p>
-            You are logged in as
-            <strong>{{ role }}</strong>.
-        </p>
-
-        <p class="dashboard-message">
-            {{ dashboard_message }}
-        </p>
-
-    </div>
-
-
-    <!-- DASHBOARD ACTIONS -->
-
-    <div class="section-title">
-
-        <h2>Quick Actions</h2>
-
-        <p>
-            Manage your pet records using the options below.
-        </p>
-
-    </div>
-
-
-    <div class="dashboard-cards">
-
-
-        <!-- ADD NEW PET -->
-
-        {% if role == "Admin" or role == "Receptionist" %}
-
-        <div class="dashboard-card">
-
-            <div class="card-icon">➕</div>
-
-            <h3>Add New Pet</h3>
-
-            <p>
-                Register a new pet and add it to the system.
-            </p>
-
-            <a href="/add_pet" class="main-btn">
-                Add Pet
-            </a>
-
+        <div class="sidebar-profile">
+            <div class="profile-icon">
+                {% if role == "Administrator" %}👨‍💼{% elif role == "Veterinarian" %}🧑‍⚕️{% else %}👤{% endif %}
+            </div>
+            <div class="profile-info">
+                <strong>{{ role }}</strong>
+                <small>{{ username }}</small>
+            </div>
         </div>
 
-        {% endif %}
+        <nav class="sidebar-menu">
+            <a href="/dashboard" class="sidebar-link active"><span class="menu-icon">🏠</span><span>Dashboard</span></a>
+            <a href="/pets" class="sidebar-link"><span class="menu-icon">🐾</span><span>Manage Pets</span></a>
+            <a href="/search" class="sidebar-link"><span class="menu-icon">🔍</span><span>Search Pets</span></a>
+            <a href="/appointments" class="sidebar-link"><span class="menu-icon">📅</span><span>Manage Appointments</span></a>
+            {% if role == "Administrator" %}
+            <a href="/users" class="sidebar-link"><span class="menu-icon">👥</span><span>Manage Users</span></a>
+            {% endif %}
+            <a href="/requests" class="sidebar-link"><span class="menu-icon">📋</span><span>Requests</span></a>
+        </nav>
 
+        <div class="sidebar-logout">
+            <a href="/logout" class="sidebar-link logout-link"><span class="menu-icon">🚪</span><span>Logout</span></a>
+        </div>
+    </aside>
 
-        <!-- VIEW PET RECORDS -->
-
-        <div class="dashboard-card">
-
-            <div class="card-icon">📋</div>
-
-            <h3>Pet Records</h3>
-
-            <p>
-                View and manage all registered pet records.
-            </p>
-
-            <a href="/pets" class="main-btn">
-                View Records
-            </a>
-
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+        <div class="dashboard-header">
+            <div>
+                <h1>{{ current_user.get_role_badge() if current_user else role }}</h1>
+                <p>Welcome back, <strong>{{ username }}</strong>!</p>
+            </div>
+            <div class="header-paw">🐾</div>
         </div>
 
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
 
-        <!-- SEARCH PET -->
-
-        <div class="dashboard-card">
-
-            <div class="card-icon">🔍</div>
-
-            <h3>Search Pet</h3>
-
-            <p>
-                Quickly search and find a specific pet record.
-            </p>
-
-            <a href="/search" class="main-btn">
-                Search Pet
-            </a>
-
+        <!-- WELCOME CARD -->
+        <div class="welcome-card">
+            <div class="welcome-profile">
+                {% if role == "Administrator" %}👨‍💼{% elif role == "Veterinarian" %}🧑‍⚕️{% else %}👤{% endif %}
+            </div>
+            <div class="welcome-content">
+                <h2>Hello, {{ username }}! 👋</h2>
+                <p>{{ current_user.dashboard_message() if current_user else "Welcome to PetCare Management System." }}</p>
+                <small style="display:block; margin-top:5px; color:#856453;">
+                    <strong>Access Level:</strong> {{ current_user.get_permissions_description() if current_user }}
+                </small>
+            </div>
+            <div class="welcome-pets">🐶 🐱</div>
         </div>
 
+        <!-- DASHBOARD GRID -->
+        <div class="dashboard-grid">
+            <div class="dashboard-card">
+                <div class="card-icon pet-icon">🐾</div>
+                <h3>Pet Records</h3>
+                <p>{% if role == "Pet Owner" %}View pet profiles and details.{% else %}Manage and update pet records.{% endif %}</p>
+                <a href="/pets" class="dashboard-button">View Pets →</a>
+            </div>
 
-    </div>
+            <div class="dashboard-card">
+                <div class="card-icon appointment-icon">📅</div>
+                <h3>Appointments</h3>
+                <p>{% if role == "Pet Owner" %}Book and view consultation schedules.{% else %}Verify and process appointments.{% endif %}</p>
+                <a href="/appointments" class="dashboard-button">View Appointments →</a>
+            </div>
 
+            {% if role == "Administrator" %}
+            <div class="dashboard-card">
+                <div class="card-icon user-icon">👥</div>
+                <h3>User Management</h3>
+                <p>Register, modify, or delete system user accounts.</p>
+                <a href="/users" class="dashboard-button">Manage Users →</a>
+            </div>
+            {% endif %}
 
-    <!-- FOOTER -->
+            <div class="dashboard-card">
+                <div class="card-icon request-icon">📋</div>
+                <h3>Requests</h3>
+                <p>{% if role == "Pet Owner" %}Submit care requests and check responses.{% else %}Process and respond to client requests.{% endif %}</p>
+                <a href="/requests" class="dashboard-button">View Requests →</a>
+            </div>
+        </div>
 
-    <div class="footer">
-
-        <p>🐾 PetCare Management System</p>
-
-        <p>
-            Simple • Organized • Reliable
-        </p>
-
-    </div>
-
+        <!-- ACCOUNT DETAILS CARD -->
+        <div class="account-card">
+            <div class="account-heading">
+                <div class="account-icon">👤</div>
+                <div>
+                    <h2>Account Information</h2>
+                    <p>Demonstrating OOP Class Structure</p>
+                </div>
+            </div>
+            <div class="account-details">
+                <div class="account-item">
+                    <span>Username</span>
+                    <strong>{{ username }}</strong>
+                </div>
+                <div class="account-item">
+                    <span>OOP Subclass</span>
+                    <strong>{{ current_user.__class__.__name__ if current_user else role }}</strong>
+                </div>
+            </div>
+            <div class="account-paw">🐾</div>
+        </div>
+    </main>
 
 </div>
 
 </body>
-
 </html>
-

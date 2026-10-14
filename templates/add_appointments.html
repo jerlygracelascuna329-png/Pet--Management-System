@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Book Appointment - PetCare</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div class="dashboard-container">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <div class="petcare-logo">
+            <div class="logo-image">
+                <img src="{{ url_for('static', filename='petcare-logo.png') }}"
+                     onerror="this.onerror=null; this.parentElement.innerHTML='<span style=\'font-size:35px;\'>🐾</span>';"
+                     alt="PetCare Logo">
+            </div>
+            <div class="logo-text">
+                <strong>PetCare</strong>
+                <small>Healthy Pets • Happy Lives</small>
+            </div>
+        </div>
+
+        <div class="sidebar-profile">
+            <div class="profile-icon">👤</div>
+            <div class="profile-info">
+                <strong>Pet Owner</strong>
+                <small>{{ session["username"] }}</small>
+            </div>
+        </div>
+
+        <nav class="sidebar-menu">
+            <a href="/dashboard" class="sidebar-link"><span class="menu-icon">🏠</span><span>Dashboard</span></a>
+            <a href="/pets" class="sidebar-link"><span class="menu-icon">🐾</span><span>Manage Pets</span></a>
+            <a href="/appointments" class="sidebar-link active"><span class="menu-icon">📅</span><span>Appointments</span></a>
+            <a href="/requests" class="sidebar-link"><span class="menu-icon">📋</span><span>Requests</span></a>
+        </nav>
+
+        <div class="sidebar-logout">
+            <a href="/logout" class="sidebar-link logout-link"><span class="menu-icon">🚪</span><span>Logout</span></a>
+        </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+        <div class="dashboard-header">
+            <div>
+                <h1>📅 Book Appointment</h1>
+                <p>Schedule a visit for your pet.</p>
+            </div>
+            <div class="header-paw">📅</div>
+        </div>
+
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <div class="card">
+            <div class="card-header">
+                <div>
+                    <h2>Appointment Details</h2>
+                    <p>Fill out the required information below.</p>
+                </div>
+            </div>
+
+            <form method="POST">
+                <div class="form-group">
+                    <label>Client / Owner</label>
+                    <input type="text" value="{{ session['username'] }}" readonly style="background:#eee; cursor:not-allowed;">
+                </div>
+
+                <div class="form-group">
+                    <label for="pet">Pet Name</label>
+                    <input type="text" id="pet" name="pet" placeholder="Enter your pet's name (e.g. Buddy)" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="appointment_date">Appointment Date</label>
+                    <input type="date" id="appointment_date" name="appointment_date" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="appointment_time">Appointment Time</label>
+                    <select id="appointment_time" name="appointment_time" required>
+                        <option value="">Select available time</option>
+                        <option value="09:00 AM">09:00 AM</option>
+                        <option value="10:00 AM">10:00 AM</option>
+                        <option value="11:00 AM">11:00 AM</option>
+                        <option value="01:00 PM">01:00 PM</option>
+                        <option value="02:00 PM">02:00 PM</option>
+                        <option value="03:00 PM">03:00 PM</option>
+                        <option value="04:00 PM">04:00 PM</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="service">Service</label>
+                    <select id="service" name="service" required>
+                        <option value="">Select a service</option>
+                        <option value="General Check-up">General Check-up</option>
+                        <option value="Vaccination">Vaccination</option>
+                        <option value="Grooming">Grooming</option>
+                        <option value="Dental Check-up">Dental Check-up</option>
+                        <option value="Treatment">Treatment</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="veterinarian">Veterinarian</label>
+                    <select id="veterinarian" name="veterinarian" required>
+                        <option value="Dr. Veterinarian">Dr. Veterinarian</option>
+                    </select>
+                </div>
+
+                <div class="actions">
+                    <button type="submit" class="btn btn-primary">📅 Book Appointment</button>
+                    <a href="/appointments" class="btn btn-secondary">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </main>
+
+</div>
+
+</body>
+</html>

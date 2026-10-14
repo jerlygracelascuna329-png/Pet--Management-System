@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Process Request - PetCare</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div class="dashboard-container">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <div class="petcare-logo">
+            <div class="logo-image">
+                <img src="{{ url_for('static', filename='petcare-logo.png') }}"
+                     onerror="this.onerror=null; this.parentElement.innerHTML='<span style=\'font-size:35px;\'>🐾</span>';"
+                     alt="PetCare Logo">
+            </div>
+            <div class="logo-text">
+                <strong>PetCare</strong>
+                <small>Healthy Pets • Happy Lives</small>
+            </div>
+        </div>
+
+        <div class="sidebar-profile">
+            <div class="profile-icon">
+                {% if session["role"] == "Administrator" %}👨‍💼{% else %}🧑‍⚕️{% endif %}
+            </div>
+            <div class="profile-info">
+                <strong>{{ session["role"] }}</strong>
+                <small>{{ session["username"] }}</small>
+            </div>
+        </div>
+
+        <nav class="sidebar-menu">
+            <a href="/dashboard" class="sidebar-link"><span class="menu-icon">🏠</span><span>Dashboard</span></a>
+            <a href="/pets" class="sidebar-link"><span class="menu-icon">🐾</span><span>Manage Pets</span></a>
+            <a href="/search" class="sidebar-link"><span class="menu-icon">🔍</span><span>Search Pets</span></a>
+            <a href="/appointments" class="sidebar-link"><span class="menu-icon">📅</span><span>Appointments</span></a>
+            {% if session["role"] == "Administrator" %}
+            <a href="/users" class="sidebar-link"><span class="menu-icon">👥</span><span>Manage Users</span></a>
+            {% endif %}
+            <a href="/requests" class="sidebar-link active"><span class="menu-icon">📋</span><span>Requests</span></a>
+        </nav>
+
+        <div class="sidebar-logout">
+            <a href="/logout" class="sidebar-link logout-link"><span class="menu-icon">🚪</span><span>Logout</span></a>
+        </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+        <div class="dashboard-header">
+            <div>
+                <h1>📋 Process Client Request</h1>
+                <p>Review the details and provide a medical response or decision.</p>
+            </div>
+            <div class="header-paw">🐾</div>
+        </div>
+
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <!-- DETAILS CARD -->
+        <div class="card">
+            <div class="card-header">
+                <div>
+                    <h2>Request Information</h2>
+                    <p>Submitted by client: <strong>{{ pet_request.client }}</strong></p>
+                </div>
+                <span class="status {% if pet_request.status in ['Approved', 'Completed'] %}approved{% else %}pending{% endif %}">
+                    {{ pet_request.status }}
+                </span>
+            </div>
+
+            <div style="line-height: 1.8; font-size: 14px; margin-bottom: 20px;">
+                <p><strong>🐾 Pet Name:</strong> {{ pet_request.pet }}</p>
+                <p><strong>👤 Owner:</strong> {{ pet_request.client }}</p>
+                <p><strong>🏷️ Type:</strong> {{ pet_request.request_type }}</p>
+                <p><strong>📝 Details:</strong> {{ pet_request.description }}</p>
+                {% if pet_request.response %}
+                <p style="margin-top: 10px; padding: 10px; background: #faf4ed; border-radius: 6px;">
+                    <strong>💬 Previous Staff Response:</strong> {{ pet_request.response }}
+                </p>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- PROCESS FORM -->
+        <div class="card">
+            <div class="card-header">
+                <div>
+                    <h2>Update Status & Response</h2>
+                    <p>Change request status and provide notes back to the client.</p>
+                </div>
+            </div>
+
+            <form method="POST">
+                <div class="form-group">
+                    <label for="status">Update Status</label>
+                    <select id="status" name="status" required>
+                        <option value="Pending" {% if pet_request.status == 'Pending' %}selected{% endif %}>⏳ Pending Review</option>
+                        <option value="Approved" {% if pet_request.status == 'Approved' %}selected{% endif %}>✅ Approved</option>
+                        <option value="Completed" {% if pet_request.status == 'Completed' %}selected{% endif %}>🎉 Completed</option>
+                        <option value="Rejected" {% if pet_request.status == 'Rejected' %}selected{% endif %}>❌ Rejected</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="response">Staff / Veterinarian Response Notes</label>
+                    <textarea id="response" name="response" rows="4" placeholder="Enter notes, schedule confirmation, or instructions for the pet owner...">{{ pet_request.response }}</textarea>
+                </div>
+
+                <div class="actions">
+                    <button type="submit" class="btn btn-primary">💾 Save Update</button>
+                    <a href="/requests" class="btn btn-secondary">← Back to Requests</a>
+                </div>
+            </form>
+        </div>
+    </main>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Requests - PetCare</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div class="dashboard-container">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <div class="petcare-logo">
+            <div class="logo-image">
+                <img src="{{ url_for('static', filename='petcare-logo.png') }}"
+                     onerror="this.onerror=null; this.parentElement.innerHTML='<span style=\'font-size:35px;\'>🐾</span>';"
+                     alt="PetCare Logo">
+            </div>
+            <div class="logo-text">
+                <strong>PetCare</strong>
+                <small>Healthy Pets • Happy Lives</small>
+            </div>
+        </div>
+
+        <div class="sidebar-profile">
+            <div class="profile-icon">
+                {% if role == "Administrator" %}👨‍💼{% elif role == "Veterinarian" %}🧑‍⚕️{% else %}👤{% endif %}
+            </div>
+            <div class="profile-info">
+                <strong>{{ role }}</strong>
+                <small>{{ session["username"] }}</small>
+            </div>
+        </div>
+
+        <nav class="sidebar-menu">
+            <a href="/dashboard" class="sidebar-link"><span class="menu-icon">🏠</span><span>Dashboard</span></a>
+            <a href="/pets" class="sidebar-link"><span class="menu-icon">🐾</span><span>Manage Pets</span></a>
+            <a href="/appointments" class="sidebar-link"><span class="menu-icon">📅</span><span>Appointments</span></a>
+            {% if role == "Administrator" %}
+            <a href="/users" class="sidebar-link"><span class="menu-icon">👥</span><span>Manage Users</span></a>
+            {% endif %}
+            <a href="/requests" class="sidebar-link active"><span class="menu-icon">📋</span><span>Requests</span></a>
+        </nav>
+
+        <div class="sidebar-logout">
+            <a href="/logout" class="sidebar-link logout-link"><span class="menu-icon">🚪</span><span>Logout</span></a>
+        </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+        <div class="dashboard-header">
+            <div>
+                <h1>📋 Service Requests</h1>
+                {% if role == "Pet Owner" %}
+                <p>Submit and monitor your pet care requests.</p>
+                {% else %}
+                <p>Review and process client care requests.</p>
+                {% endif %}
+            </div>
+            <div class="header-paw">🐾</div>
+        </div>
+
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        {% if role == "Pet Owner" %}
+        <div class="card">
+            <div class="card-header">
+                <div>
+                    <h2>📝 Need Pet Care Assistance?</h2>
+                    <p>Submit a request to our veterinary staff.</p>
+                </div>
+                <a href="/add_request" class="btn btn-primary">➕ Submit Request</a>
+            </div>
+        </div>
+        {% endif %}
+
+        <div class="card">
+            <div class="card-header">
+                <div>
+                    <h2>📋 Request Records</h2>
+                    <p>Current list of submitted requests.</p>
+                </div>
+                <div class="status approved">
+                    {{ requests|length }} {% if requests|length == 1 %}Request{% else %}Requests{% endif %}
+                </div>
+            </div>
+
+            {% if requests %}
+            <div class="request-list">
+                {% for real_idx, pet_request in requests %}
+                <div class="request-card">
+                    <div class="request-top" style="display:flex; justify-content:space-between; align-items:flex-start;">
+                        <div>
+                            <h3>🐾 {{ pet_request.pet }} — {{ pet_request.request_type }}</h3>
+                            <p style="color:#7d6b61; font-size:13px; margin-top:3px;">
+                                👤 Client: <strong>{{ pet_request.client }}</strong>
+                            </p>
+                        </div>
+                        <span class="status {% if pet_request.status in ['Approved', 'Completed'] %}approved{% else %}pending{% endif %}">
+                            {{ pet_request.status }}
+                        </span>
+                    </div>
+
+                    <div style="margin: 12px 0; font-size: 13px; line-height: 1.5; color: #55443a;">
+                        <strong>Details:</strong> {{ pet_request.description }}
+                    </div>
+
+                    {% if pet_request.response %}
+                    <div style="padding: 10px 12px; background: #faf4ed; border-radius: 8px; font-size: 13px; color: #4e7046; border-left: 3px solid #66825a;">
+                        <strong>💬 Staff Response:</strong> {{ pet_request.response }}
+                    </div>
+                    {% endif %}
+
+                    {% if role in ["Administrator", "Veterinarian"] %}
+                    <div class="actions" style="margin-top: 15px;">
+                        <a href="/process_request/{{ real_idx }}" class="btn btn-primary btn-small">
+                            ⚙️ Process Request →
+                        </a>
+                    </div>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <div class="empty-state">
+                <div class="empty-icon">📋</div>
+                <h3>No Requests Found</h3>
+                <p>There are no active requests at this time.</p>
+                {% if role == "Pet Owner" %}
+                <a href="/add_request" class="btn btn-primary" style="margin-top:10px;">➕ Submit Your First Request</a>
+                {% endif %}
+            </div>
+            {% endif %}
+        </div>
+    </main>
+
+</div>
+
+</body>
+</html>

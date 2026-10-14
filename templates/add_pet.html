@@ -1,157 +1,116 @@
 <!DOCTYPE html>
 <html>
 <head>
-
-    <title>Add New Pet - Pet Management System</title>
-
-    <link rel="stylesheet"
-          href="{{ url_for('static', filename='style.css') }}">
-
-    <link rel="stylesheet"
-          href="{{ url_for('static', filename='pets.css') }}">
-
+    <title>Add Pet - PetCare</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
-
 <body>
 
-<div class="container">
+<div class="dashboard-container">
 
-    <h1>🐾 Pet Management System</h1>
-
-
-    <div class="add-pet-card">
-
-        <div class="add-pet-header">
-
-            <h2>➕ Add New Pet</h2>
-
-            <p>
-                Enter the pet information to create a new record.
-            </p>
-
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <div class="petcare-logo">
+            <div class="logo-image">
+                <img src="{{ url_for('static', filename='petcare-logo.png') }}"
+                     onerror="this.onerror=null; this.parentElement.innerHTML='<span style=\'font-size:35px;\'>🐾</span>';"
+                     alt="PetCare Logo">
+            </div>
+            <div class="logo-text">
+                <strong>PetCare</strong>
+                <small>Healthy Pets • Happy Lives</small>
+            </div>
         </div>
 
+        <div class="sidebar-profile">
+            <div class="profile-icon">
+                {% if session["role"] == "Administrator" %}👨‍💼{% else %}🧑‍⚕️{% endif %}
+            </div>
+            <div class="profile-info">
+                <strong>{{ session["role"] }}</strong>
+                <small>{{ session["username"] }}</small>
+            </div>
+        </div>
+
+        <nav class="sidebar-menu">
+            <a href="/dashboard" class="sidebar-link"><span class="menu-icon">🏠</span><span>Dashboard</span></a>
+            <a href="/pets" class="sidebar-link active"><span class="menu-icon">🐾</span><span>Manage Pets</span></a>
+            <a href="/search" class="sidebar-link"><span class="menu-icon">🔍</span><span>Search Pets</span></a>
+            <a href="/appointments" class="sidebar-link"><span class="menu-icon">📅</span><span>Appointments</span></a>
+            {% if session["role"] == "Administrator" %}
+            <a href="/users" class="sidebar-link"><span class="menu-icon">👥</span><span>Manage Users</span></a>
+            {% endif %}
+            <a href="/requests" class="sidebar-link"><span class="menu-icon">📋</span><span>Requests</span></a>
+        </nav>
+
+        <div class="sidebar-logout">
+            <a href="/logout" class="sidebar-link logout-link"><span class="menu-icon">🚪</span><span>Logout</span></a>
+        </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+        <div class="dashboard-header">
+            <div>
+                <h1>➕ Add New Pet</h1>
+                <p>Register a new pet in the system records.</p>
+            </div>
+            <div class="header-paw">🐾</div>
+        </div>
 
         {% with messages = get_flashed_messages() %}
             {% if messages %}
-
                 {% for message in messages %}
-
-                    <p class="flash-message">
-                        {{ message }}
-                    </p>
-
+                    <div class="alert">{{ message }}</div>
                 {% endfor %}
-
             {% endif %}
         {% endwith %}
 
-
-        <form method="POST" class="add-pet-form">
-
-
-            <div class="form-group">
-
-                <label for="name">
-                    Pet Name
-                </label>
-
-                <input
-                    type="text"
-                    id="name"
-                    name="name"
-                    placeholder="Enter pet name"
-                    required
-                >
-
+        <div class="card">
+            <div class="card-header">
+                <div>
+                    <h2>Pet Information</h2>
+                    <p>Enter the details below to add the pet.</p>
+                </div>
             </div>
 
+            <form method="POST">
+                <div class="form-group">
+                    <label for="name">Pet Name</label>
+                    <input type="text" id="name" name="name" placeholder="Enter pet name" required>
+                </div>
 
-            <div class="form-group">
+                <div class="form-group">
+                    <label for="species">Species</label>
+                    <select id="species" name="species" required>
+                        <option value="">Select species</option>
+                        <option value="Dog">🐶 Dog</option>
+                        <option value="Cat">🐱 Cat</option>
+                        <option value="Bird">🐦 Bird</option>
+                        <option value="Rabbit">🐰 Rabbit</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
 
-                <label for="species">
-                    Species
-                </label>
+                <div class="form-group">
+                    <label for="age">Age (Years)</label>
+                    <input type="number" id="age" name="age" min="0" placeholder="Enter age" required>
+                </div>
 
-                <input
-                    type="text"
-                    id="species"
-                    name="species"
-                    placeholder="Example: Dog or Cat"
-                    required
-                >
+                <div class="form-group">
+                    <label for="owner">Owner Username</label>
+                    <input type="text" id="owner" name="owner" placeholder="Enter owner's username" required>
+                </div>
 
-            </div>
-
-
-            <div class="form-group">
-
-                <label for="age">
-                    Age
-                </label>
-
-                <input
-                    type="number"
-                    id="age"
-                    name="age"
-                    min="1"
-                    placeholder="Enter pet age"
-                    required
-                >
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label for="owner">
-                    Owner Name
-                </label>
-
-                <input
-                    type="text"
-                    id="owner"
-                    name="owner"
-                    placeholder="Enter owner's name"
-                    required
-                >
-
-            </div>
-
-
-            <div class="form-actions">
-
-                <button
-                    type="submit"
-                    class="add-pet-btn"
-                >
-                    Add Pet
-                </button>
-
-            </div>
-
-
-        </form>
-
-
-    </div>
-
-
-    <br>
-
-
-    <a href="/pets">
-        📋 View Pet Records
-    </a>
-
-
-    <a href="/dashboard">
-        🏠 Back to Dashboard
-    </a>
-
+                <div class="actions">
+                    <button type="submit" class="btn btn-primary">➕ Add Pet</button>
+                    <a href="/pets" class="btn btn-secondary">← Cancel</a>
+                </div>
+            </form>
+        </div>
+    </main>
 
 </div>
 
 </body>
 </html>
-

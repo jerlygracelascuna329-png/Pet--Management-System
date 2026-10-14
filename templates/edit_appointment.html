@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edit Appointment - PetCare</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div class="dashboard-container">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <div class="petcare-logo">
+            <div class="logo-image">
+                <img src="{{ url_for('static', filename='petcare-logo.png') }}"
+                     onerror="this.onerror=null; this.parentElement.innerHTML='<span style=\'font-size:35px;\'>🐾</span>';"
+                     alt="PetCare Logo">
+            </div>
+            <div class="logo-text">
+                <strong>PetCare</strong>
+                <small>Healthy Pets • Happy Lives</small>
+            </div>
+        </div>
+
+        <div class="sidebar-profile">
+            <div class="profile-icon">👤</div>
+            <div class="profile-info">
+                <strong>{{ session["role"] }}</strong>
+                <small>{{ session["username"] }}</small>
+            </div>
+        </div>
+
+        <nav class="sidebar-menu">
+            <a href="/dashboard" class="sidebar-link"><span class="menu-icon">🏠</span><span>Dashboard</span></a>
+            <a href="/pets" class="sidebar-link"><span class="menu-icon">🐾</span><span>Manage Pets</span></a>
+            <a href="/appointments" class="sidebar-link active"><span class="menu-icon">📅</span><span>Appointments</span></a>
+            <a href="/requests" class="sidebar-link"><span class="menu-icon">📋</span><span>Requests</span></a>
+        </nav>
+
+        <div class="sidebar-logout">
+            <a href="/logout" class="sidebar-link logout-link"><span class="menu-icon">🚪</span><span>Logout</span></a>
+        </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+        <div class="dashboard-header">
+            <div>
+                <h1>✏️ Edit Appointment</h1>
+                <p>Update your pending appointment details.</p>
+            </div>
+            <div class="header-paw">📅</div>
+        </div>
+
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <div class="card">
+            <div class="card-header">
+                <div>
+                    <h2>Appointment Details</h2>
+                    <p>Appointments can be edited while status is Pending.</p>
+                </div>
+                <span class="status pending">{{ appointment.status }}</span>
+            </div>
+
+            <form method="POST">
+                <div class="form-group">
+                    <label>Client / Owner</label>
+                    <input type="text" value="{{ appointment.client }}" readonly style="background:#eee; cursor:not-allowed;">
+                </div>
+
+                <div class="form-group">
+                    <label for="pet">Pet Name</label>
+                    <input type="text" id="pet" name="pet" value="{{ appointment.pet }}" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="appointment_date">Appointment Date</label>
+                    <input type="date" id="appointment_date" name="appointment_date" value="{{ appointment.appointment_date }}" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="appointment_time">Appointment Time</label>
+                    <select id="appointment_time" name="appointment_time" required>
+                        <option value="09:00 AM" {% if appointment.appointment_time == "09:00 AM" %}selected{% endif %}>09:00 AM</option>
+                        <option value="10:00 AM" {% if appointment.appointment_time == "10:00 AM" %}selected{% endif %}>10:00 AM</option>
+                        <option value="11:00 AM" {% if appointment.appointment_time == "11:00 AM" %}selected{% endif %}>11:00 AM</option>
+                        <option value="01:00 PM" {% if appointment.appointment_time == "01:00 PM" %}selected{% endif %}>01:00 PM</option>
+                        <option value="02:00 PM" {% if appointment.appointment_time == "02:00 PM" %}selected{% endif %}>02:00 PM</option>
+                        <option value="03:00 PM" {% if appointment.appointment_time == "03:00 PM" %}selected{% endif %}>03:00 PM</option>
+                        <option value="04:00 PM" {% if appointment.appointment_time == "04:00 PM" %}selected{% endif %}>04:00 PM</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="service">Service</label>
+                    <select id="service" name="service" required>
+                        <option value="General Check-up" {% if appointment.service == "General Check-up" %}selected{% endif %}>General Check-up</option>
+                        <option value="Vaccination" {% if appointment.service == "Vaccination" %}selected{% endif %}>Vaccination</option>
+                        <option value="Grooming" {% if appointment.service == "Grooming" %}selected{% endif %}>Grooming</option>
+                        <option value="Dental Check-up" {% if appointment.service == "Dental Check-up" %}selected{% endif %}>Dental Check-up</option>
+                        <option value="Treatment" {% if appointment.service == "Treatment" %}selected{% endif %}>Treatment</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="veterinarian">Veterinarian</label>
+                    <select id="veterinarian" name="veterinarian" required>
+                        <option value="Dr. Veterinarian" {% if appointment.veterinarian == "Dr. Veterinarian" %}selected{% endif %}>Dr. Veterinarian</option>
+                    </select>
+                </div>
+
+                <div class="actions">
+                    <button type="submit" class="btn btn-primary">💾 Save Changes</button>
+                    <a href="/appointments" class="btn btn-secondary">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </main>
+
+</div>
+
+</body>
+</html>

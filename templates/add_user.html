@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Create New User - PetCare</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+<div class="dashboard-container">
+
+    <!-- ================= SIDEBAR ================= -->
+
+    <aside class="sidebar">
+
+        <!-- PETCARE LOGO -->
+
+        <div class="petcare-logo">
+
+            <div class="logo-image">
+                <img src="{{ url_for('static', filename='petcare-logo.png') }}"
+                     alt="PetCare Logo">
+            </div>
+
+            <div class="logo-text">
+                <strong>PetCare</strong>
+                <small>Healthy Pets • Happy Lives</small>
+            </div>
+
+        </div>
+
+
+        <!-- USER PROFILE -->
+
+        <div class="sidebar-profile">
+
+            <div class="profile-icon">
+
+                {% if session["role"] == "Administrator" %}
+                    👨‍💼
+                {% elif session["role"] == "Veterinarian" %}
+                    🧑‍⚕️
+                {% else %}
+                    👤
+                {% endif %}
+
+            </div>
+
+            <div class="profile-info">
+
+                <strong>{{ session["role"] }}</strong>
+
+                <small>{{ session["username"] }}</small>
+
+            </div>
+
+        </div>
+
+
+        <!-- NAVIGATION MENU -->
+
+        <nav class="sidebar-menu">
+
+            <a href="/dashboard" class="sidebar-link">
+                <span class="menu-icon">🏠</span>
+                <span>Dashboard</span>
+            </a>
+
+            <a href="/pets" class="sidebar-link">
+                <span class="menu-icon">🐾</span>
+                <span>Manage Pets</span>
+            </a>
+
+            <a href="/search" class="sidebar-link">
+                <span class="menu-icon">🔍</span>
+                <span>Search Pets</span>
+            </a>
+
+            <a href="/appointments" class="sidebar-link">
+                <span class="menu-icon">📅</span>
+                <span>Manage Appointments</span>
+            </a>
+
+            <a href="/requests" class="sidebar-link">
+                <span class="menu-icon">📋</span>
+                <span>Requests</span>
+            </a>
+
+            {% if session["role"] == "Administrator" %}
+
+            <a href="/users" class="sidebar-link active">
+                <span class="menu-icon">👥</span>
+                <span>Manage Users</span>
+            </a>
+
+            {% endif %}
+
+        </nav>
+
+
+        <!-- LOGOUT -->
+
+        <div class="sidebar-logout">
+
+            <a href="/logout" class="sidebar-link logout-link">
+                <span class="menu-icon">🚪</span>
+                <span>Logout</span>
+            </a>
+
+        </div>
+
+    </aside>
+
+
+    <!-- ================= MAIN CONTENT ================= -->
+
+    <main class="main-content">
+
+        <!-- PAGE HEADER -->
+
+        <div class="dashboard-header">
+
+            <div>
+                <h1>Create New User</h1>
+
+                <p>
+                    Add a new account to the PetCare system.
+                </p>
+            </div>
+
+            <div class="header-paw">👥</div>
+
+        </div>
+
+
+        <!-- FLASH MESSAGES -->
+
+        {% with messages = get_flashed_messages() %}
+
+            {% if messages %}
+
+                {% for message in messages %}
+
+                    <div class="alert">
+                        {{ message }}
+                    </div>
+
+                {% endfor %}
+
+            {% endif %}
+
+        {% endwith %}
+
+
+        <!-- ================= CREATE USER FORM ================= -->
+
+        <div class="card">
+
+            <div class="card-header">
+
+                <div>
+                    <h2>New User Information</h2>
+
+                    <p>
+                        Enter the account information below.
+                    </p>
+                </div>
+
+            </div>
+
+
+            <form method="POST">
+
+                <!-- USERNAME -->
+
+                <div class="form-group">
+
+                    <label for="username">Username</label>
+
+                    <input
+                        type="text"
+                        id="username"
+                        name="username"
+                        placeholder="Enter username"
+                        required>
+
+                </div>
+
+
+                <!-- PASSWORD -->
+
+                <div class="form-group">
+
+                    <label for="password">Password</label>
+
+                    <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        placeholder="Enter password"
+                        required>
+
+                </div>
+
+
+                <!-- USER ROLE -->
+
+                <div class="form-group">
+
+                    <label for="role">User Role</label>
+
+                    <select id="role" name="role" required>
+
+                        <option value="">Select User Role</option>
+
+                        <option value="Administrator">
+                            Administrator
+                        </option>
+
+                        <option value="Veterinarian">
+                            Veterinarian
+                        </option>
+
+                        <option value="Pet Owner">
+                            Pet Owner
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- FORM BUTTONS -->
+
+                <div class="actions">
+
+                    <button
+                        type="submit"
+                        class="btn btn-primary">
+
+                        + Create User
+
+                    </button>
+
+                    <a href="/users"
+                       class="btn btn-secondary">
+
+                        ← Back to Users
+
+                    </a>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </main>
+
+</div>
+
+</body>
+
+</html>

@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>User Management - Pet Management System</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+
+<body>
+
+<div class="dashboard-container">
+
+
+    <!-- ==============================
+         SIDEBAR
+    =============================== -->
+
+    <aside class="sidebar">
+
+
+        <!-- LOGO -->
+
+        <div class="petcare-logo">
+
+            <div class="logo-image">
+
+                <img
+                    src="{{ url_for('static', filename='petcare-logo.png') }}"
+                    alt="PetCare Logo">
+
+            </div>
+
+
+            <div class="logo-text">
+
+                <strong>
+                    PetCare
+                </strong>
+
+                <small>
+                    Healthy Pets • Happy Lives
+                </small>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- PROFILE -->
+
+        <div class="sidebar-profile">
+
+            <div class="profile-icon">
+
+                {% if session["role"] == "Administrator" %}
+
+                    👨‍💼
+
+                {% elif session["role"] == "Veterinarian" %}
+
+                    🧑‍⚕️
+
+                {% else %}
+
+                    👤
+
+                {% endif %}
+
+            </div>
+
+
+            <div class="profile-info">
+
+                {% if session["role"] == "Administrator" %}
+
+                    <strong>
+                        Administrator
+                    </strong>
+
+                {% elif session["role"] == "Veterinarian" %}
+
+                    <strong>
+                        Veterinarian
+                    </strong>
+
+                {% else %}
+
+                    <strong>
+                        Pet Owner
+                    </strong>
+
+                {% endif %}
+
+
+                <small>
+                    {{ session["username"] }}
+                </small>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- MENU -->
+
+        <nav class="sidebar-menu">
+
+
+            <a href="/dashboard"
+               class="sidebar-link">
+
+                <span class="menu-icon">
+                    🏠
+                </span>
+
+                <span>
+                    Dashboard
+                </span>
+
+            </a>
+
+
+            <a href="/pets"
+               class="sidebar-link">
+
+                <span class="menu-icon">
+                    🐾
+                </span>
+
+                <span>
+                    Manage Pets
+                </span>
+
+            </a>
+
+
+            <a href="/appointments"
+               class="sidebar-link">
+
+                <span class="menu-icon">
+                    📅
+                </span>
+
+                <span>
+                    Manage Appointments
+                </span>
+
+            </a>
+
+
+            <a href="/users"
+               class="sidebar-link active">
+
+                <span class="menu-icon">
+                    👥
+                </span>
+
+                <span>
+                    Manage Users
+                </span>
+
+            </a>
+
+
+            <a href="/requests"
+               class="sidebar-link">
+
+                <span class="menu-icon">
+                    📋
+                </span>
+
+                <span>
+                    Requests
+                </span>
+
+            </a>
+
+
+        </nav>
+
+
+
+        <!-- LOGOUT -->
+
+        <div class="sidebar-logout">
+
+            <a href="/logout"
+               class="sidebar-link logout-link">
+
+                <span class="menu-icon">
+                    🚪
+                </span>
+
+                <span>
+                    Logout
+                </span>
+
+            </a>
+
+        </div>
+
+    </aside>
+
+
+
+    <!-- ==============================
+         MAIN CONTENT
+    =============================== -->
+
+    <main class="main-content">
+
+
+        <!-- HEADER -->
+
+        <div class="dashboard-header">
+
+            <div>
+
+                <h1>
+                    👥 User Management
+                </h1>
+
+                <p>
+                    Manage registered users and their roles.
+                </p>
+
+            </div>
+
+
+            <div class="header-paw">
+                👥
+            </div>
+
+        </div>
+
+
+
+        <!-- FLASH MESSAGES -->
+
+        {% with messages = get_flashed_messages() %}
+
+            {% if messages %}
+
+                {% for message in messages %}
+
+                    <div class="alert">
+                        {{ message }}
+                    </div>
+
+                {% endfor %}
+
+            {% endif %}
+
+        {% endwith %}
+
+
+
+        <!-- ==============================
+             USER MANAGEMENT
+        =============================== -->
+
+        <div class="card">
+
+
+            <div class="card-header">
+
+                <div>
+
+                    <h2>
+                        👥 System Users
+                    </h2>
+
+                    <p>
+                        View and manage all registered users.
+                    </p>
+
+                </div>
+
+
+                <a href="/add_user"
+                   class="btn btn-success">
+
+                    ➕ Create New User
+
+                </a>
+
+            </div>
+
+
+
+            <!-- USERS TABLE -->
+
+            {% if users %}
+
+            <div class="table-container">
+
+                <table>
+
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                #
+                            </th>
+
+                            <th>
+                                Username
+                            </th>
+
+                            <th>
+                                Role
+                            </th>
+
+                            <th>
+                                Actions
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+
+                    <tbody>
+
+
+                        {% for user in users %}
+
+                        <tr>
+
+
+                            <!-- NUMBER -->
+
+                            <td>
+                                {{ loop.index }}
+                            </td>
+
+
+
+                            <!-- USERNAME -->
+
+                            <td>
+
+                                <strong>
+                                    {{ user.username }}
+                                </strong>
+
+                            </td>
+
+
+
+                            <!-- ROLE -->
+
+                            <td>
+
+                                {% if user.__class__.__name__ == "Admin" %}
+
+                                    <span class="status approved">
+                                        Administrator
+                                    </span>
+
+
+                                {% elif user.__class__.__name__ == "Veterinarian" %}
+
+                                    <span class="status approved">
+                                        Veterinarian
+                                    </span>
+
+
+                                {% elif user.__class__.__name__ == "PetOwner" %}
+
+                                    <span class="status pending">
+                                        Pet Owner
+                                    </span>
+
+
+                                {% else %}
+
+                                    <span class="status">
+                                        Unknown Role
+                                    </span>
+
+                                {% endif %}
+
+                            </td>
+
+
+
+                            <!-- ACTIONS -->
+
+                            <td>
+
+                                <div class="actions">
+
+
+                                    <!-- EDIT -->
+
+                                    <a
+                                        href="/edit_user/{{ loop.index0 }}"
+                                        class="btn btn-primary btn-small">
+
+                                        ✏️ Edit
+
+                                    </a>
+
+
+
+                                    <!-- DELETE -->
+
+                                    {% if user.username != session["username"] %}
+
+                                    <a
+                                        href="/delete_user/{{ loop.index0 }}"
+                                        class="btn btn-danger btn-small"
+
+                                        onclick="return confirm('Are you sure you want to delete this user?');">
+
+                                        🗑️ Delete
+
+                                    </a>
+
+
+                                    {% else %}
+
+                                    <span class="status approved">
+
+                                        Current Account
+
+                                    </span>
+
+                                    {% endif %}
+
+
+                                </div>
+
+                            </td>
+
+
+                        </tr>
+
+                        {% endfor %}
+
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+
+            {% else %}
+
+
+            <!-- NO USERS -->
+
+            <div class="empty-state">
+
+                <div class="empty-icon">
+                    👥
+                </div>
+
+                <h3>
+                    No Users Found
+                </h3>
+
+                <p>
+                    There are no registered users yet.
+                </p>
+
+            </div>
+
+
+            {% endif %}
+
+
+
+            <!-- BACK BUTTON -->
+
+            <div class="actions"
+                 style="margin-top: 20px;">
+
+                <a
+                    href="/dashboard"
+                    class="btn btn-secondary">
+
+                    ← Back to Dashboard
+
+                </a>
+
+            </div>
+
+
+        </div>
+
+
+    </main>
+
+</div>
+
+
+</body>
+
+</html>

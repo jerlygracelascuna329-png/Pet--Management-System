@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edit User - PetCare</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div class="dashboard-container">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <div class="petcare-logo">
+            <div class="logo-image">
+                <img src="{{ url_for('static', filename='petcare-logo.png') }}"
+                     onerror="this.onerror=null; this.parentElement.innerHTML='<span style=\'font-size:35px;\'>🐾</span>';"
+                     alt="PetCare Logo">
+            </div>
+            <div class="logo-text">
+                <strong>PetCare</strong>
+                <small>Healthy Pets • Happy Lives</small>
+            </div>
+        </div>
+
+        <div class="sidebar-profile">
+            <div class="profile-icon">👨‍💼</div>
+            <div class="profile-info">
+                <strong>Administrator</strong>
+                <small>{{ session["username"] }}</small>
+            </div>
+        </div>
+
+        <nav class="sidebar-menu">
+            <a href="/dashboard" class="sidebar-link"><span class="menu-icon">🏠</span><span>Dashboard</span></a>
+            <a href="/pets" class="sidebar-link"><span class="menu-icon">🐾</span><span>Manage Pets</span></a>
+            <a href="/appointments" class="sidebar-link"><span class="menu-icon">📅</span><span>Appointments</span></a>
+            <a href="/users" class="sidebar-link active"><span class="menu-icon">👥</span><span>Manage Users</span></a>
+            <a href="/requests" class="sidebar-link"><span class="menu-icon">📋</span><span>Requests</span></a>
+        </nav>
+
+        <div class="sidebar-logout">
+            <a href="/logout" class="sidebar-link logout-link"><span class="menu-icon">🚪</span><span>Logout</span></a>
+        </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+        <div class="dashboard-header">
+            <div>
+                <h1>✏️ Edit User Account</h1>
+                <p>Modify credentials and permissions for: <strong>{{ target_user.username }}</strong></p>
+            </div>
+            <div class="header-paw">👥</div>
+        </div>
+
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <div class="card">
+            <div class="card-header">
+                <div>
+                    <h2>Account Information</h2>
+                    <p>Update password or role assignments.</p>
+                </div>
+            </div>
+
+            <form method="POST">
+                <div class="form-group">
+                    <label>Username</label>
+                    <input type="text" value="{{ target_user.username }}" readonly style="background:#eee; cursor:not-allowed;">
+                    <small>Usernames cannot be changed.</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="text" id="password" name="password" value="{{ target_user.password }}" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="role">Assigned Role</label>
+                    <select id="role" name="role" required>
+                        <option value="Administrator" {% if target_user.role == "Administrator" %}selected{% endif %}>
+                            👑 Administrator (Full Control)
+                        </option>
+                        <option value="Veterinarian" {% if target_user.role == "Veterinarian" %}selected{% endif %}>
+                            🩺 Veterinarian (Staff / Clinical Operations)
+                        </option>
+                        <option value="Pet Owner" {% if target_user.role == "Pet Owner" %}selected{% endif %}>
+                            🐾 Pet Owner (Client)
+                        </option>
+                    </select>
+                </div>
+
+                <div class="actions">
+                    <button type="submit" class="btn btn-primary">💾 Save Changes</button>
+                    <a href="/users" class="btn btn-secondary">← Cancel</a>
+                </div>
+            </form>
+        </div>
+    </main>
+
+</div>
+
+</body>
+</html>

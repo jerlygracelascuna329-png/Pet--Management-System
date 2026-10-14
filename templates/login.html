@@ -1,254 +1,119 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Login - Pet Management System</title>
-
-    <link rel="stylesheet" href="{{ url_for('static', filename='login.css') }}">
+    <title>PetCare - Login</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        .demo-accounts {
+            margin-top: 20px;
+            padding: 14px;
+            background: #faf4ed;
+            border: 1px dashed #c9ad96;
+            border-radius: 10px;
+            font-size: 12px;
+            color: #553e32;
+        }
+        .demo-accounts table {
+            width: 100%;
+            margin-top: 8px;
+            border-collapse: collapse;
+            font-size: 11px;
+        }
+        .demo-accounts th, .demo-accounts td {
+            padding: 5px 6px;
+            text-align: left;
+            border-bottom: 1px solid #ebd9c9;
+        }
+        .demo-accounts th {
+            background: #f1dfca;
+            color: #49352c;
+            font-weight: bold;
+        }
+    </style>
 </head>
+<body class="login-page">
 
-<body>
-
-    <!-- Background Shapes -->
-    <div class="background-shapes">
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-    </div>
-
-
-    <!-- Floating Pet Icons -->
-    <div class="pet-icons" aria-hidden="true">
-        <span>🐾</span>
-        <span>🐶</span>
-        <span>🐱</span>
-        <span>🐾</span>
-        <span>🐾</span>
-        <span>🐶</span>
-    </div>
-
-
-    <!-- Login Page -->
-    <div class="login-page">
-
-        <div class="login-card">
-
-            <!-- Logo -->
-            <div class="pet-logo">
-                <div class="logo-circle">
-                    🐾
-                </div>
+    <div class="login-container">
+        <!-- LOGO BRAND -->
+        <div class="login-brand">
+            <div class="login-logo">
+                <img src="{{ url_for('static', filename='petcare-logo.png') }}"
+                     onerror="this.onerror=null; this.parentElement.innerHTML='<span style=\'font-size:55px;\'>🐾</span>';"
+                     alt="PetCare Logo">
             </div>
-
-
-            <!-- System Title -->
             <h1>PetCare</h1>
-
-            <p class="system-name">
-                Pet Management System
-            </p>
-
-
-            <!-- Divider -->
-            <div class="welcome-divider"></div>
-
-
-            <!-- Welcome -->
-            <h2>Welcome Back</h2>
-
-            <p class="welcome-text">
-                Login to manage your pet records.
-            </p>
-
-
-            <!-- Flash Messages -->
-            {% with messages = get_flashed_messages() %}
-
-                {% if messages %}
-
-                    {% for message in messages %}
-
-                        <p class="flash-message">
-                            {{ message }}
-                        </p>
-
-                    {% endfor %}
-
-                {% endif %}
-
-            {% endwith %}
-
-
-            <!-- Login Form -->
-            <form method="POST">
-
-                <!-- Username -->
-                <div class="input-group">
-
-                    <label for="username">
-                        Username
-                    </label>
-
-                    <div class="input-wrapper">
-
-                        <span class="input-icon">
-                            👤
-                        </span>
-
-                        <input
-                            type="text"
-                            id="username"
-                            name="username"
-                            placeholder="Enter your username"
-                            autocomplete="username"
-                            required
-                        >
-
-                    </div>
-
-                </div>
-
-
-                <!-- Password -->
-                <div class="input-group">
-
-                    <label for="password">
-                        Password
-                    </label>
-
-                    <div class="input-wrapper">
-
-                        <span class="input-icon">
-                            🔒
-                        </span>
-
-                        <input
-                            type="password"
-                            id="password"
-                            name="password"
-                            placeholder="Enter your password"
-                            autocomplete="current-password"
-                            required
-                        >
-
-                        <!-- Show / Hide Password -->
-                        <span
-                            class="password-toggle"
-                            onclick="togglePassword('password', this)"
-                            title="Show password"
-                        >
-                            👁
-                        </span>
-
-                    </div>
-
-                </div>
-
-
-                <!-- Login Button -->
-                <button
-                    type="submit"
-                    class="login-btn"
-                >
-
-                    <span>
-                        Login to System
-                    </span>
-
-                    <span class="button-icon">
-                        →
-                    </span>
-
-                </button>
-
-            </form>
-
-
-            <!-- Sign Up Section -->
-            <div class="signup-section">
-
-                <p>
-                    Don't have an account?
-                </p>
-
-                <a
-                    href="{{ url_for('signup') }}"
-                    class="signup-btn"
-                >
-                    Sign Up
-                </a>
-
-            </div>
-
-
-            <!-- Footer -->
-            <div class="login-footer">
-
-                <p>
-                    🐾 PetCare Management System
-                </p>
-
-            </div>
-
+            <p>Healthy Pets • Happy Lives</p>
         </div>
 
+        <!-- LOGIN CARD -->
+        <div class="login-card">
+            <div class="login-header">
+                <h2>Welcome Back!</h2>
+                <p>Login to your PetCare account</p>
+            </div>
+
+            <!-- FLASH MESSAGES -->
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert">{{ message }}</div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+
+            <form method="POST">
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" name="username" placeholder="Enter username" required autofocus>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" placeholder="Enter password" required>
+                </div>
+
+                <button type="submit" class="btn btn-primary login-button">
+                    🔐 Login
+                </button>
+            </form>
+
+            <!-- DEMO TEST ACCOUNTS (FOR INSTRUCTOR) -->
+            <div class="demo-accounts">
+                <strong>📋 Instructor Test Accounts:</strong>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Role</th>
+                            <th>Username</th>
+                            <th>Password</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>👑 Administrator</td>
+                            <td><code>admin</code></td>
+                            <td><code>admin123</code></td>
+                        </tr>
+                        <tr>
+                            <td>🩺 Veterinarian</td>
+                            <td><code>vet</code></td>
+                            <td><code>vet123</code></td>
+                        </tr>
+                        <tr>
+                            <td>🐾 Pet Owner</td>
+                            <td><code>owner</code></td>
+                            <td><code>owner123</code></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="login-footer">
+                <span>🐾</span>
+                <p>Multi-User Web-Based Pet Management System</p>
+            </div>
+        </div>
     </div>
 
-
-    <!-- JavaScript -->
-    <script>
-
-        function togglePassword(inputId, icon) {
-
-            const input = document.getElementById(inputId);
-
-            if (input.type === "password") {
-
-                input.type = "text";
-
-                icon.textContent = "🙈";
-
-                icon.title = "Hide password";
-
-            } else {
-
-                input.type = "password";
-
-                icon.textContent = "👁";
-
-                icon.title = "Show password";
-
-            }
-
-        }
-
-
-        // Automatically hide flash messages
-        document.querySelectorAll('.flash-message').forEach(function(el) {
-
-            setTimeout(function() {
-
-                el.style.opacity = '0';
-
-                el.style.transform = 'translateY(-10px)';
-
-                setTimeout(function() {
-
-                    el.remove();
-
-                }, 500);
-
-            }, 3500);
-
-        });
-
-    </script>
-
 </body>
-
 </html>
